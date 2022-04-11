@@ -1,16 +1,24 @@
 // import objects
 import Sponge from '../sprites/sponge.js'
 
-// "Game" scene: This is the main scene of the game
+/**
+ * "Game" scene: Scene for the main game
+ */
 export default class gameScene extends Phaser.Scene {
 
+    /**
+     * Constructor
+     * @constructor
+     */
     constructor() {
         super({
             key: 'Game'
         });
     }
 
-    // initiate scene parameters
+    /**
+     * Initialize parameters
+     */
     init() {
 
     }
@@ -20,14 +28,20 @@ export default class gameScene extends Phaser.Scene {
 
     }
 
-    // create objects (executed once after preload())
+    /**
+     * Creates all objects of this scene
+     */
     create() {
 
         this.add.existing(new Sponge(this, 100, 100));
 
     }
 
-    // update method
+    /**
+     * Update function for the game loop.
+     * @param {number} time
+     * @param {number} delta
+     */
     update(time, delta) {
 
     }

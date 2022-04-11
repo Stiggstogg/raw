@@ -1,6 +1,12 @@
-// Sprite class
+/**
+ * Sprite class
+ */
 export default class Sponge extends Phaser.GameObjects.Sprite {
 
+    /**
+     * Constructor
+     * @constructor
+     */
     constructor(scene, x, y) {
 
         super(scene, x, y, 'sponge');

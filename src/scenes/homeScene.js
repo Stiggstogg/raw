@@ -1,13 +1,21 @@
-// "Game" scene: Main game scene
+/**
+ * "Home" scene: Main game menu scene
+ */
 export default class gameScene extends Phaser.Scene {
 
+    /**
+     * Constructor
+     * @constructor
+     */
     constructor() {
         super({
             key: 'Home'
         });
     }
 
-    // Shows the home screen and waits for the the user to start the game
+    /**
+     * Shows the home screen and waits for the the user to select a menu entry
+     */
     create() {
 
         // get game width and height
