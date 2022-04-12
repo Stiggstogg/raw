@@ -1,8 +1,8 @@
-// "Boot" scene: First scene, which is used to load basic (and small) assets for the "Loading" scene
-
-// import
 import logoImg from '../assets/images/logo.png';        // logo image
 
+/**
+ * "Boot" scene: First scene, which is used to load basic (and small) assets for the "Loading" scene
+ */
 export default class bootScene extends Phaser.Scene {
 
     /**
@@ -22,7 +22,6 @@ export default class bootScene extends Phaser.Scene {
 
         // load logo
         this.load.image('logo', logoImg);
-        console.log('test');
 
     }
 
