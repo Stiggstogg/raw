@@ -1,4 +1,8 @@
-import spongeImg from '../assets/images/sponge.jpeg';
+import uiBgImg from '../assets/images/uiBackground.png';
+import playerImg from '../assets/images/Player.png';
+import blockImg from '../assets/images/Block.png';
+import backgroundImg from '../assets/images/Background.png';
+import levelJson from '../assets/json/level.json'
 
 /**
  * "Loading" scene: Loads all assets and shows a progress bar while loading
@@ -67,10 +71,16 @@ export default class loadingScene extends Phaser.Scene {
         }, this);
 
         // load images
-        this.load.image('sponge', spongeImg);
+        this.load.image('uiBackground', uiBgImg);
+        this.load.image('player', playerImg);
+        this.load.image('block', blockImg);
+        this.load.image('background', backgroundImg);
 
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');
+
+        // load json
+        this.load.json('levelData', levelJson);
 
     }
 
@@ -78,7 +88,8 @@ export default class loadingScene extends Phaser.Scene {
      * Add the animations and change to "Home" scene, directly after loading
      */
     create() {
-        this.scene.start('Home');
+        //this.scene.start('Home');
+        this.scene.start('Game');  // TODO: Remove
     }
 
 }

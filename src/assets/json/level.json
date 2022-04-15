@@ -1,0 +1,25 @@
+{
+  "player": {
+    "x": 40,
+    "y": 200,
+    "speed": 100,
+    "jumpSpeed": 300
+  },
+  "platforms": [
+    {
+      "x": 0,
+      "y": 315,
+      "numTiles": 22
+    },
+    {
+      "x": 20,
+      "y": 260,
+      "numTiles": 4
+    },
+    {
+      "x": 60,
+      "y": 150,
+      "numTiles": 5
+    }
+  ]
+}
