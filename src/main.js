@@ -18,7 +18,7 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    pixelArt: false,                                     // if true pixel perfect rendering is used
+    pixelArt: true,                                     // if true pixel perfect rendering is used
     backgroundColor: '#000000',
     physics: {
         default: 'arcade',

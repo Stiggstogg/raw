@@ -2,6 +2,7 @@ import uiBgImg from '../assets/images/uiBackground.png';
 import playerImg from '../assets/images/Player.png';
 import blockImg from '../assets/images/Block.png';
 import backgroundImg from '../assets/images/Background.png';
+import checkpointImg from '../assets/images/Checkpoint.png';
 import levelJson from '../assets/json/level.json'
 
 /**
@@ -75,6 +76,7 @@ export default class loadingScene extends Phaser.Scene {
         this.load.image('player', playerImg);
         this.load.image('block', blockImg);
         this.load.image('background', backgroundImg);
+        this.load.image('checkpoint', checkpointImg);
 
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');

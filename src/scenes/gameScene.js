@@ -1,5 +1,6 @@
 import Player from '../sprites/player.js'
 import Block from '../sprites/block.js'
+import Checkpoint from '../sprites/checkpoint.js'
 
 /**
  * "Game" scene: Scene for the main game
@@ -39,11 +40,19 @@ export default class gameScene extends Phaser.Scene {
             y: lineSize                                       // top left position of the play area (camera position), x
         };
 
-        //console.log(this.playArea);
+        // world size
+        this.worldSize = {
+            width: this.playArea.width * 2,   // world is double the size of the play area width
+            height: this.playArea.height      // world is as high as the play area hight
+        }
+
+        console.log(this.worldSize);
 
     }
 
-    // load assets
+    /**
+     * Load assets
+     */
     preload() {
 
     }
@@ -127,18 +136,12 @@ export default class gameScene extends Phaser.Scene {
      */
     createWorld() {
 
-        // calculate world size
-        const worldSize = {
-            width: this.playArea.width * 2,   // world is double the size of the play area width
-            height: this.playArea.height      // world is as high as the play area hight
-        }
-
         // set world boundaries
-        this.physics.world.bounds.width = worldSize.width;
-        this.physics.world.bounds.height = worldSize.height;
+        this.physics.world.bounds.width = this.worldSize.width;
+        this.physics.world.bounds.height = this.worldSize.height;
 
         // set the camera
-        this.cameras.main.setBounds(0, 0, worldSize.width, worldSize.height);       // set the camera boundaries (to the world size)
+        this.cameras.main.setBounds(0, 0, this.worldSize.width, this.worldSize.height);       // set the camera boundaries (to the world size)
         this.cameras.main.setPosition(this.playArea.x, this.playArea.y);                  // set the camera position
         this.cameras.main.setSize(this.playArea.width, this.playArea.height);             // set the camera size (play area)
 
@@ -157,25 +160,49 @@ export default class gameScene extends Phaser.Scene {
         // get level data
         this.levelData = this.cache.json.get('levelData');
 
-        // add player
-        this.player = this.add.existing(new Player(this, this.levelData.player.x, this.levelData.player.y,
-            this.levelData.player.speed, this.levelData.player.jumpSpeed));
+        // ------------
+        // player
+        // ------------
+        this.player = this.add.existing(new Player(this,
+            this.relToWorld(this.levelData.player.x, 'x'),
+            this.relToWorld(this.levelData.player.y, 'y'),
+            this.relToWorld(this.levelData.player.speed, 'x'),
+            this.relToWorld(this.levelData.player.jumpSpeed, 'y')));
 
         // make camera follow player
         this.cameras.main.startFollow(this.player);
 
-        // add platforms
+        // --------------
+        // platforms
+        // --------------
         this.platforms = this.physics.add.staticGroup();
 
         for (let i = 0; i < this.levelData.platforms.length; i++) {
 
             let platformData = this.levelData.platforms[i];
 
-            let platform = new Block(this, platformData.x, platformData.y, platformData.numTiles);
+            let platform = new Block(this, this.relToWorld(platformData.x, 'x'), this.relToWorld(platformData.y, 'y'), platformData.numTiles);
 
             this.add.existing(platform);
 
             this.platforms.add(platform);
+
+        }
+
+        // --------------
+        // checkpoints
+        // --------------
+        this.checkpoints = this.physics.add.staticGroup();
+
+        for (let i = 0; i < this.levelData.checkpoints.length; i++) {
+
+            let checkpointData = this.levelData.checkpoints[i];
+
+            let checkpoint = new Checkpoint(this, this.relToWorld(checkpointData.x, 'x'), this.relToWorld(checkpointData.y, 'y'));
+
+            this.add.existing(checkpoint);
+
+            this.checkpoints.add(checkpoint);
 
         }
 
@@ -189,6 +216,31 @@ export default class gameScene extends Phaser.Scene {
         // collision between player and platforms
         this.physics.add.collider(this.player, this.platforms);
 
+        // overlapping of player and checkpoints
+        this.physics.add.overlap(this.player, this.checkpoints, this.checkpointOverlap, null, this);
+
+    }
+
+    /**
+     * Function which executes when player overlaps with a checkpoint
+     */
+    checkpointOverlap() {
+        console.log('Colides');
+    }
+
+    /**
+     * Calculate from relative coordinates to the world coordinates in pixels
+     * @param {number} rel relative coordinate in the world
+     * @param {string} dir direction of the coordinate ('x' or 'y')
+     */
+    relToWorld(rel, dir) {
+
+        if (dir === 'y') {
+            return Math.round(rel * this.worldSize.height);
+        }
+        else {
+            return Math.round(rel * this.worldSize.width);
+        }
     }
 
 }
