@@ -3,6 +3,14 @@ import playerImg from '../assets/images/Player.png';
 import blockImg from '../assets/images/Block.png';
 import backgroundImg from '../assets/images/Background.png';
 import checkpointImg from '../assets/images/Checkpoint.png';
+import editorBgImg from '../assets/images/EditorBackground.png';
+import buttonGraphicsImg from '../assets/images/button-graphics.png';
+import buttonSoundImg from '../assets/images/button-sound.png';
+import buttonLeftImg from '../assets/images/button-left.png';
+import buttonJumpImg from '../assets/images/button-jump.png';
+import buttonDoublejumpImg from '../assets/images/button-doublejump.png';
+import buttonCrouchImg from '../assets/images/button-crouch.png';
+import buttonPlatformsImg from '../assets/images/button-platforms.png';
 import levelJson from '../assets/json/level.json'
 
 /**
@@ -77,6 +85,23 @@ export default class loadingScene extends Phaser.Scene {
         this.load.image('block', blockImg);
         this.load.image('background', backgroundImg);
         this.load.image('checkpoint', checkpointImg);
+        this.load.image('editorBackground', editorBgImg);
+
+        // load spritesheets
+        const buttonProperties = {
+            frameWidth: 16,
+            frameHeight: 16,
+            margin: 0,
+            spacing: 0
+        };
+
+        this.load.spritesheet('buttonGraphics', buttonGraphicsImg, buttonProperties);
+        this.load.spritesheet('buttonSound', buttonSoundImg, buttonProperties);
+        this.load.spritesheet('buttonLeft', buttonLeftImg, buttonProperties);
+        this.load.spritesheet('buttonJump', buttonJumpImg, buttonProperties);
+        this.load.spritesheet('buttonDoublejump', buttonDoublejumpImg, buttonProperties);
+        this.load.spritesheet('buttonCrouch', buttonCrouchImg, buttonProperties);
+        this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');
@@ -91,7 +116,19 @@ export default class loadingScene extends Phaser.Scene {
      */
     create() {
         //this.scene.start('Home');
-        this.scene.start('Game');  // TODO: Remove
+        this.scene.start('Editor', {
+            activeUpgrades: {
+                right: true,
+                graphics: true,
+                sound: true,
+                left: false,
+                platforms: true,
+                jump: true,
+                doubleJump: false,
+                crouch: false
+            },
+            activeCheckpoints: [true, true, true, true, true, true, true],
+        });   // TODO: Change back to see menu
     }
 
 }

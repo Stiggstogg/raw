@@ -20,7 +20,7 @@ export default class gameScene extends Phaser.Scene {
     /**
      * Initialize parameters
      */
-    init() {
+    init(data) {
 
         // get game width and height
         this.gw = this.sys.game.config.width;
@@ -37,7 +37,7 @@ export default class gameScene extends Phaser.Scene {
             width: this.gw - 2 * lineSize,                    // width of the play area size (camera size)
             height: this.gh - lineSize - buttonAreaSize,      // height of the play area size (camera size)
             x: lineSize,                                      // top left position of the play area (camera position), x
-            y: lineSize                                       // top left position of the play area (camera position), x
+            y: lineSize                                       // top left position of the play area (camera position), y
         };
 
         // world size
@@ -46,7 +46,8 @@ export default class gameScene extends Phaser.Scene {
             height: this.playArea.height      // world is as high as the play area hight
         }
 
-        console.log(this.worldSize);
+        // get data (active checkpoints and active upgrades)
+        this.data = data;
 
     }
 
@@ -109,7 +110,7 @@ export default class gameScene extends Phaser.Scene {
         }
 
         // jump
-        if (this.keyUp.isDown) {
+        if (this.keySpace.isDown && this.data.activeUpgrades.jump) {
             this.player.move('up');
         }
     }
@@ -121,7 +122,7 @@ export default class gameScene extends Phaser.Scene {
 
         // up and down keys (moving the selection of the entries)
         this.keyDown = this.input.keyboard.addKey('Down');
-        this.keyUp = this.input.keyboard.addKey('Up');
+        this.keySpace = this.input.keyboard.addKey('SPACE');
         this.keyLeft = this.input.keyboard.addKey('Left');
         this.keyRight = this.input.keyboard.addKey('Right');
 
@@ -175,18 +176,23 @@ export default class gameScene extends Phaser.Scene {
         // --------------
         // platforms
         // --------------
+
+
         this.platforms = this.physics.add.staticGroup();
 
         for (let i = 0; i < this.levelData.platforms.length; i++) {
 
-            let platformData = this.levelData.platforms[i];
+            if (i < 1 || this.data.activeUpgrades.platforms) {                  // create platforms (besides the first one, which is the floor) only if the upgrade is activated
 
-            let platform = new Block(this, this.relToWorld(platformData.x, 'x'), this.relToWorld(platformData.y, 'y'), platformData.numTiles);
+                let platformData = this.levelData.platforms[i];
 
-            this.add.existing(platform);
+                let platform = new Block(this, this.relToWorld(platformData.x, 'x'), this.relToWorld(platformData.y, 'y'), platformData.numTiles);
 
-            this.platforms.add(platform);
+                this.add.existing(platform);
 
+                this.platforms.add(platform);
+
+            }
         }
 
         // --------------
@@ -196,13 +202,18 @@ export default class gameScene extends Phaser.Scene {
 
         for (let i = 0; i < this.levelData.checkpoints.length; i++) {
 
-            let checkpointData = this.levelData.checkpoints[i];
+            if (this.data.activeCheckpoints[i]) {
+                let checkpointData = this.levelData.checkpoints[i];
 
-            let checkpoint = new Checkpoint(this, this.relToWorld(checkpointData.x, 'x'), this.relToWorld(checkpointData.y, 'y'));
+                let checkpoint = new Checkpoint(this,
+                    this.relToWorld(checkpointData.x, 'x'),
+                    this.relToWorld(checkpointData.y, 'y'),
+                    i);
 
-            this.add.existing(checkpoint);
+                this.add.existing(checkpoint);
 
-            this.checkpoints.add(checkpoint);
+                this.checkpoints.add(checkpoint);
+            }
 
         }
 
@@ -224,8 +235,19 @@ export default class gameScene extends Phaser.Scene {
     /**
      * Function which executes when player overlaps with a checkpoint
      */
-    checkpointOverlap() {
-        console.log('Colides');
+    checkpointOverlap(sourceSprite, targetSprite) {
+
+        // make checkpoint insivible
+        const spriteNumber = targetSprite.getNum();         // get number of the checkpoint which was touched
+        this.data.activeCheckpoints[spriteNumber] = false;       // innactivate checkpoint for next time
+
+        // pause game and UI scene
+        this.scene.pause('Game');
+        this.scene.pause('UI');
+
+        // launch editor scene
+        this.scene.launch('Editor', this.data);
+
     }
 
     /**
