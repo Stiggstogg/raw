@@ -88,11 +88,8 @@ export default class editorScene extends Phaser.Scene {
         this.input.keyboard.addKey('Down').on('down', function() { this.selector.down() }, this);
         this.input.keyboard.addKey('Up').on('down', function() { this.selector.up() }, this);
 
-        // enter and space key (confirming a selection)
-        this.input.keyboard.addKey('Enter').on('down', function() {
-            this.scene.stop('UI');
-            this.scene.start('Game', this.data)
-        }, this);
+        // space key (confirming a selection)
+        this.input.keyboard.addKey('Space').on('down', this.activateUpgrade, this);
 
     }
 
@@ -120,20 +117,69 @@ export default class editorScene extends Phaser.Scene {
 
         this.upgradeButtons = this.add.group();
 
+        // create buttons and set their active or available state
         for (let i = 0; i < buttonData.length; i++) {
 
             let button = this.add.existing(new UpgradeButton(this,
                 this.relToWorld(buttonData[i].x, 'x'),
                 this.relToWorld(buttonData[i].y, 'y'),
-                buttonData[i].key));
+                buttonData[i].key, i));
 
-            this.upgradeButtons.add(button);
+            this.upgradeButtons.add(button);            // add the button to the group
+
+            // set button to active or available
+            if (this.data.activeUpgrades[i]) {          // set button state to already active if already activated
+                button.setButtonState(2);
+            }
+            else {                                      // else set button state to available (might change later!)
+                button.setButtonState(1);
+            }
+
+        }
+
+        // check now if certain buttons are not available (because of dependencies)
+        if (this.upgradeButtons.getChildren()[0].getButtonState() !== 2 || this.upgradeButtons.getChildren()[1].getButtonState() !== 2) {     // set the jump, left, crouch and platforms to "not available" when graphics and sound are not active
+
+            for (let i = 2; i < 6; i++) {
+
+                this.upgradeButtons.getChildren()[i].setButtonState(0);
+            }
+        }
+
+        if (this.upgradeButtons.getChildren()[2].getButtonState() !== 2) {         // set the double jump  to "not available" when jump is not active
+
+            this.upgradeButtons.getChildren()[6].setButtonState(0);
+
         }
 
         // selector
-        this.selector = new Selector(this.upgradeButtons);
+        this.selector = this.add.existing(new Selector(this, 2, 0xffff00, this.upgradeButtons));
 
     }
+
+    /**
+     * Activate an upgrade (or at least try to activate one
+     */
+    activateUpgrade() {
+
+        const selectedButton = this.selector.getSelectedButton();
+
+        switch (selectedButton.getButtonState()) {
+            case 0:                     // upgrade is not available
+                console.log('Upgrade not available!');
+                break;
+            case 1:                     // upgrade available
+                this.data.activeUpgrades[selectedButton.getButtonIndex()] = true;       // activate this upgrade
+                this.scene.stop('UI');                                              // stop UI scene
+                this.scene.start('Game', this.data);                                // start game scene again
+                break;
+            default:
+                console.log('Upgrade already active!');
+                break;
+        }
+
+    }
+
 
     /**
      * Calculate from relative coordinates to the world coordinates in pixels

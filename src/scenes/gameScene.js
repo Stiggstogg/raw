@@ -110,7 +110,7 @@ export default class gameScene extends Phaser.Scene {
         }
 
         // jump
-        if (this.keySpace.isDown && this.data.activeUpgrades.jump) {
+        if (this.keySpace.isDown && this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
             this.player.move('up');
         }
     }
@@ -182,7 +182,7 @@ export default class gameScene extends Phaser.Scene {
 
         for (let i = 0; i < this.levelData.platforms.length; i++) {
 
-            if (i < 1 || this.data.activeUpgrades.platforms) {                  // create platforms (besides the first one, which is the floor) only if the upgrade is activated
+            if (i < 1 || this.data.activeUpgrades[5]) {                  // create platforms (besides the first one, which is the floor) only if the platforms upgrade (index: 5) is active
 
                 let platformData = this.levelData.platforms[i];
 

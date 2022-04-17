@@ -1,14 +1,20 @@
 /**
  * Selector class which select the buttons in the editor.
  */
-export default class Selector {
+export default class Selector extends Phaser.GameObjects.Rectangle {
 
     /**
      * Constructor
-     * @constructor
-     * @param {Phaser.GameObjects.Group} buttonGroup - group of buttons
+     * @param {Phaser.Scene} scene - scene where the rectangle is placed
+     * @param {number} lineWidth - width of the line in px
+     * @param {number} lineColor - color of the line
+     * @param {Phaser.GameObjects.Group} buttonGroup - group with all the upgrade buttons
      */
-    constructor(buttonGroup) {
+    constructor(scene, lineWidth, lineColor, buttonGroup) {
+
+        super(scene, 0, 0, buttonGroup.getChildren()[0].width + lineWidth, buttonGroup.getChildren()[0].height + lineWidth);
+
+        this.setStrokeStyle(lineWidth, lineColor, 1);       // set the style of the selector frame
 
         // button structure of the upgrade tree
         this.structure = [
@@ -22,6 +28,8 @@ export default class Selector {
             row: 0,
             column: 0
         }
+
+        this.select();
 
     }
 
@@ -132,19 +140,34 @@ export default class Selector {
 
     }
 
-    // deselect the currently active button
+    /**
+     * Deselect button
+     */
     deselect() {
 
         this.structure[this.selected.row][this.selected.column].deselect();
 
     }
 
-    // select the currently active button
+    /**
+     * Select the button
+     */
     select() {
 
-        this.structure[this.selected.row][this.selected.column].select();
+        const button = this.getSelectedButton();     // get the button to select
 
-        console.log(this.structure[this.selected.row][this.selected.column].texture.key);
+        button.select();                                                            // select this button
+
+        this.setPosition(button.x, button.y);                                       // change the position of the rectangle to the one of the button
+
+    }
+
+    /**
+     * Get the currently selected button
+     */
+    getSelectedButton() {
+
+        return this.structure[this.selected.row][this.selected.column];
 
     }
 
