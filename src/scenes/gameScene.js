@@ -1,6 +1,6 @@
-import Player from '../sprites/player.js'
-import Block from '../sprites/block.js'
-import Checkpoint from '../sprites/checkpoint.js'
+import Player from './../sprites/player.js'
+import Block from './../sprites/block.js'
+import Checkpoint from './../sprites/checkpoint.js'
 
 /**
  * "Game" scene: Scene for the main game

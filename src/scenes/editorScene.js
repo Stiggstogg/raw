@@ -1,5 +1,5 @@
-import UpgradeButton from '../sprites/upgradeButton.js'
-import Selector from '../helper/selector.js'
+import UpgradeButton from './../sprites/upgradeButton.js'
+import Selector from './../helper/selector.js'
 
 /**
  * "Editor" scene: Scene for the editor to choose upgrades

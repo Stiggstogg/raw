@@ -1,17 +1,17 @@
-import uiBgImg from '../assets/images/uiBackground.png';
-import playerImg from '../assets/images/Player.png';
-import blockImg from '../assets/images/Block.png';
-import backgroundImg from '../assets/images/Background.png';
-import checkpointImg from '../assets/images/Checkpoint.png';
-import editorBgImg from '../assets/images/EditorBackground.png';
-import buttonGraphicsImg from '../assets/images/button-graphics.png';
-import buttonSoundImg from '../assets/images/button-sound.png';
-import buttonLeftImg from '../assets/images/button-left.png';
-import buttonJumpImg from '../assets/images/button-jump.png';
-import buttonDoublejumpImg from '../assets/images/button-doublejump.png';
-import buttonCrouchImg from '../assets/images/button-crouch.png';
-import buttonPlatformsImg from '../assets/images/button-platforms.png';
-import levelJson from '../assets/json/level.json'
+import uiBgImg from './../assets/images/uiBackground.png';
+import playerImg from './../assets/images/Player.png';
+import blockImg from './../assets/images/Block.png';
+import backgroundImg from './../assets/images/Background.png';
+import checkpointImg from './../assets/images/Checkpoint.png';
+import editorBgImg from './../assets/images/EditorBackground.png';
+import buttonGraphicsImg from './../assets/images/button-graphics.png';
+import buttonSoundImg from './../assets/images/button-sound.png';
+import buttonLeftImg from './../assets/images/button-left.png';
+import buttonJumpImg from './../assets/images/button-jump.png';
+import buttonDoublejumpImg from './../assets/images/button-doublejump.png';
+import buttonCrouchImg from './../assets/images/button-crouch.png';
+import buttonPlatformsImg from './../assets/images/button-platforms.png';
+import levelJson from './../assets/json/level.json'
 
 /**
  * "Loading" scene: Loads all assets and shows a progress bar while loading

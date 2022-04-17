@@ -1,4 +1,4 @@
-import logoImg from '../assets/images/logo.png';        // logo image
+import logoImg from './../assets/images/logo.png';        // logo image
 
 /**
  * "Boot" scene: First scene, which is used to load basic (and small) assets for the "Loading" scene
