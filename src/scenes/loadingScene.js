@@ -11,7 +11,12 @@ import buttonJumpImg from './../assets/images/button-jump.png';
 import buttonDoublejumpImg from './../assets/images/button-doublejump.png';
 import buttonCrouchImg from './../assets/images/button-crouch.png';
 import buttonPlatformsImg from './../assets/images/button-platforms.png';
-import levelJson from './../assets/json/level.json'
+import mobileLeftImg from './../assets/images/mobile-left.png';
+import mobileRightImg from './../assets/images/mobile-right.png';
+import mobileCrouchImg from './../assets/images/mobile-crouch.png';
+import mobileJumpImg from './../assets/images/mobile-jump.png';
+import levelJson from './../assets/json/level.json';
+import uiJson from './../assets/json/uiElements.json';
 
 /**
  * "Loading" scene: Loads all assets and shows a progress bar while loading
@@ -103,11 +108,24 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('buttonCrouch', buttonCrouchImg, buttonProperties);
         this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
+        const mobileProperties = {
+            frameWidth: 25,
+            frameHeight: 25,
+            margin: 0,
+            spacing: 0
+        };
+
+        this.load.spritesheet('mobileLeft', mobileLeftImg, mobileProperties);
+        this.load.spritesheet('mobileRight', mobileRightImg, mobileProperties);
+        this.load.spritesheet('mobileCrouch', mobileCrouchImg, mobileProperties);
+        this.load.spritesheet('mobileJump', mobileJumpImg, mobileProperties);
+
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');
 
         // load json
-        this.load.json('levelData', levelJson);
+        this.load.json('levelData', levelJson);     // load level data
+        this.load.json('uiElements', uiJson);        // ui elements
 
     }
 

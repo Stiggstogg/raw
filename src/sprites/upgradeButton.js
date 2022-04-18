@@ -1,5 +1,5 @@
 /**
- * Upgrade button
+ * Upgrade buttons in the editor
  */
 export default class UpgradeButton extends Phaser.GameObjects.Sprite {
 

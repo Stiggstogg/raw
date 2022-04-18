@@ -1,6 +1,7 @@
-import Player from './../sprites/player.js'
-import Block from './../sprites/block.js'
-import Checkpoint from './../sprites/checkpoint.js'
+import Player from './../sprites/player.js';
+import Block from './../sprites/block.js';
+import Checkpoint from './../sprites/checkpoint.js';
+import eventsCenter from './../helper/eventsCenter.js';
 
 /**
  * "Game" scene: Scene for the main game
@@ -43,7 +44,7 @@ export default class gameScene extends Phaser.Scene {
         // world size
         this.worldSize = {
             width: this.playArea.width * 2,   // world is double the size of the play area width
-            height: this.playArea.height      // world is as high as the play area hight
+            height: this.playArea.height      // world is as high as the play area height
         }
 
         // get data (active checkpoints and active upgrades)
@@ -76,8 +77,11 @@ export default class gameScene extends Phaser.Scene {
         // setup collisions
         this.setupCollisions();
 
-        // Add keyboard inputs
+        // add keyboard inputs
         this.addKeys();
+
+        // add mobile control inputs (through events)
+        this.addMobileControls();
 
         // Instruction / press key text
         // this.add.text(this.gw / 2, this.gh - 46,
@@ -99,10 +103,12 @@ export default class gameScene extends Phaser.Scene {
     update(time, delta) {
 
         // movement (left, right)
-        if (this.keyLeft.isDown && !this.keyRight.isDown) {
+        if ((this.keyLeft.isDown && !this.keyRight.isDown) ||
+            (this.mobileControlPressed.left && !this.mobileControlPressed.right)) {
             this.player.move('left');
         }
-        else if (this.keyRight.isDown && !this.keyLeft.isDown) {
+        else if ((this.keyRight.isDown && !this.keyLeft.isDown) ||
+        (this.mobileControlPressed.right && !this.mobileControlPressed.left)) {
             this.player.move('right');
         }
         else {
@@ -110,9 +116,11 @@ export default class gameScene extends Phaser.Scene {
         }
 
         // jump
-        if (this.keySpace.isDown && this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
+        if ((this.keySpace.isDown || this.mobileControlPressed.jump)
+            && this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
             this.player.move('up');
         }
+
     }
 
     /**
@@ -129,6 +137,35 @@ export default class gameScene extends Phaser.Scene {
         // enter and space key (confirming a selection)
         //this.input.keyboard.addKey('Enter').on('down', function() { this.spaceEnterKey() }, this);
         //this.input.keyboard.addKey('Space').on('down', function() { this.spaceEnterKey() }, this);
+
+    }
+
+    /**
+     * Add mobile controls (through events)
+     */
+    addMobileControls() {
+
+        // object which has the pressed state of every mobile button
+        this.mobileControlPressed = {
+            left: false,
+            right: false,
+            crouch: false,
+            jump: false
+        }
+
+        // event listener to listen for any presses of buttons
+        eventsCenter.on('mobileDown', function(type) {          // set "control pressed" to true for this control
+            this.mobileControlPressed[type] = true;
+        }, this);
+
+        eventsCenter.on('mobileUp', function(type) {          // set "control pressed" to false if the control is released
+            this.mobileControlPressed[type] = false;
+        }, this);
+
+        // cleanup the listeners for the events
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
+            eventsCenter.off('moveRight');
+        });
 
     }
 

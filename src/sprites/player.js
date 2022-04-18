@@ -16,24 +16,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
         this.body.setCollideWorldBounds(true);   // limit the sprite to the boundaries of the world
 
-        this.on('pointerdown', this.click);
-
         this.speed = speed;             // movement speed of the sprite
         this.jumpSpeed = jumpSpeed;     // speed of the jump
-
-    }
-
-    /**
-     * Action which should happen when the sprite is clicked
-     * @param pointer pointer
-     */
-    click(pointer) {
-        console.log('spongibongy');
-
-        this.scene.scene.stop('UI');
-
-        this.scene.scene.start('Home');
-
 
     }
 

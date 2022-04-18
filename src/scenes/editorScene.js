@@ -102,6 +102,9 @@ export default class editorScene extends Phaser.Scene {
         // get level data
         this.levelData = this.cache.json.get('levelData');
 
+        // get uiElements data
+        this.uiElements = this.cache.json.get('uiElements');
+
         // set the camera
         this.cameras.main.setPosition(this.editorArea.x, this.editorArea.y);                  // set the camera position
         this.cameras.main.setSize(this.editorArea.width, this.editorArea.height);             // set the camera size (editor size)
@@ -113,7 +116,7 @@ export default class editorScene extends Phaser.Scene {
         // ------------
         // buttons
         // ------------
-        const buttonData = this.levelData.buttons;      // get data on button placement and picture
+        const buttonData = this.uiElements.buttons;      // get data on button placement and picture
 
         this.upgradeButtons = this.add.group();
 

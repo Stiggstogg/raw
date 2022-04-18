@@ -1,0 +1,61 @@
+{
+  "buttons": [
+    {
+      "key": "buttonGraphics",
+      "x": 0.33,
+      "y": 0.2
+    },
+    {
+      "key": "buttonSound",
+      "x": 0.66,
+      "y": 0.2
+    },
+    {
+      "key": "buttonJump",
+      "x": 0.2,
+      "y": 0.3
+    },
+    {
+      "key": "buttonLeft",
+      "x": 0.4,
+      "y": 0.3
+    },
+    {
+      "key": "buttonCrouch",
+      "x": 0.6,
+      "y": 0.3
+    },
+    {
+      "key": "buttonPlatforms",
+      "x": 0.8,
+      "y": 0.3
+    },
+    {
+      "key": "buttonDoublejump",
+      "x": 0.2,
+      "y": 0.4
+    }
+  ],
+  "mobileControls": [
+    {
+      "key": "mobileLeft",
+      "x": 0.15,
+      "y": 0.925
+    },
+    {
+      "key": "mobileRight",
+      "x": 0.35,
+      "y": 0.925
+    },
+    {
+      "key": "mobileCrouch",
+      "x": 0.65,
+      "y": 0.925
+    },
+    {
+      "key": "mobileJump",
+      "x": 0.85,
+      "y": 0.925
+    }
+  ]
+}
