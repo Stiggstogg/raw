@@ -15,9 +15,10 @@ export default class MobileControl extends Phaser.GameObjects.Sprite {
 
         this.setInteractive();      // make it interactive
 
-        // listen to the event when the item is clicked and unclicked
+        // listen to the event when the item is clicked and unclicked or moved away
         this.on('pointerdown', this.click, this);
         this.on('pointerup', this.release, this);
+        this.on('pointerout', this.release, this);      // this will also stop the clicking when the button is still pressed but the pointer is moved away from the object
 
         this.buttonType = img.replace('mobile', '').toLowerCase();       // store the button type (left, right, crouch, jump)
 
@@ -28,16 +29,18 @@ export default class MobileControl extends Phaser.GameObjects.Sprite {
      */
     click() {
 
-        eventsCenter.emit('mobileDown', this.buttonType);
+        eventsCenter.emit('mobileDown', this.buttonType);       // emit the event that the button was pressed
+        this.setFrame(1);                                       // set the image to pressed
 
     }
 
     /**
-     * Action which is done when the button is released.
+     * Action which is done when the button is released or the pointer is moved away
      */
     release() {
 
-        eventsCenter.emit('mobileUp', this.buttonType);
+        eventsCenter.emit('mobileUp', this.buttonType);         // emit the event that the button was released
+        this.setFrame(0);                                       // set the image back to normal
 
 
     }

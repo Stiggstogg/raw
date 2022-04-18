@@ -64,6 +64,9 @@ export default class uiScene extends Phaser.Scene {
 
     mobileControlsSetup() {
 
+        // add multiple pointers to allow multi touch
+        this.input.addPointer(2);
+
         const mobileData = this.uiElements.mobileControls;      // get data on the mobile control button placement and picture
 
         // create mobile control buttons and place them

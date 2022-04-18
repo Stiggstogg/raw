@@ -83,6 +83,7 @@ export default class gameScene extends Phaser.Scene {
         // add mobile control inputs (through events)
         this.addMobileControls();
 
+        // TODO: Remove. Just used as template
         // Instruction / press key text
         // this.add.text(this.gw / 2, this.gh - 46,
         //     'Use arrow keys or W, A, S, D to move Sponge Bob around\n' +
@@ -91,7 +92,15 @@ export default class gameScene extends Phaser.Scene {
         //         fill: '#27ff00'
         //     }).setOrigin(0.5);
 
-
+        // TODO: Remove. For touch optimization
+        // this.add.text(20, 20, 'Left:',{fill: '#000000'});
+        // this.add.text(20, 40, 'Right:', {fill: '#000000'});
+        // this.add.text(20, 60, 'Crouch:', {fill: '#000000'});
+        // this.add.text(20, 80, 'Jump', {fill: '#000000'});
+        // this.debugLeft = this.add.text(100, 20, 'wat', {fill: '#000000'});
+        // this.debugRight = this.add.text(100, 40, '', {fill: '#000000'});
+        // this.debugCrouch = this.add.text(100, 60, '', {fill: '#000000'});
+        // this.debugJump = this.add.text(100, 80, '', {fill: '#000000'});
 
     }
 
@@ -101,6 +110,13 @@ export default class gameScene extends Phaser.Scene {
      * @param {number} delta
      */
     update(time, delta) {
+
+        // TODO: Remove. For touch optimization
+        // this.debugLeft.setText(this.mobileControlPressed.left.toString());
+        // this.debugRight.setText(this.mobileControlPressed.right.toString());
+        // this.debugCrouch.setText(this.mobileControlPressed.crouch.toString());
+        // this.debugJump.setText(this.mobileControlPressed.jump.toString());
+
 
         // movement (left, right)
         if ((this.keyLeft.isDown && !this.keyRight.isDown) ||

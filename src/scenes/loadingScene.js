@@ -135,7 +135,7 @@ export default class loadingScene extends Phaser.Scene {
     create() {
         //this.scene.start('Home');
         this.scene.start('Game', {
-            activeUpgrades: [false , false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+            activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
             activeCheckpoints: [true, true, true, true, true, true, true],
         });   // TODO: Change back to see menu
     }
