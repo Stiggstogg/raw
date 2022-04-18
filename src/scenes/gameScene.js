@@ -65,7 +65,7 @@ export default class gameScene extends Phaser.Scene {
     create() {
 
         // launch UI scene
-        this.scene.launch('UI');
+        this.scene.launch('UI', this.data);
         this.scene.bringToTop();        // bring this scene on top of the UI scene
 
         // creates the world
@@ -119,8 +119,9 @@ export default class gameScene extends Phaser.Scene {
 
 
         // movement (left, right)
-        if ((this.keyLeft.isDown && !this.keyRight.isDown) ||
-            (this.mobileControlPressed.left && !this.mobileControlPressed.right)) {
+        if (((this.keyLeft.isDown && !this.keyRight.isDown) ||
+            (this.mobileControlPressed.left && !this.mobileControlPressed.right))
+            && this.data.activeUpgrades[3]) {       // check if move left upgrade (index: 3) is active
             this.player.move('left');
         }
         else if ((this.keyRight.isDown && !this.keyLeft.isDown) ||

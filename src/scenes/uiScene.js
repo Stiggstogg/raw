@@ -18,11 +18,14 @@ export default class uiScene extends Phaser.Scene {
     /**
      * Initialize parameters
      */
-    init() {
+    init(data) {
 
         // get game width and height
         this.gw = this.sys.game.config.width;
         this.gh = this.sys.game.config.height;
+
+        // save information from game scene
+        this.data = data;
 
     }
 
@@ -62,6 +65,9 @@ export default class uiScene extends Phaser.Scene {
 
     }
 
+    /**
+     * Draws the mobile control buttons.
+     */
     mobileControlsSetup() {
 
         // add multiple pointers to allow multi touch
@@ -69,14 +75,22 @@ export default class uiScene extends Phaser.Scene {
 
         const mobileData = this.uiElements.mobileControls;      // get data on the mobile control button placement and picture
 
+        const visible = true;               // true if a certain button is visible
+
         // create mobile control buttons and place them
         for (let i = 0; i < mobileData.length; i++) {
 
-            let button = this.add.existing(new MobileControl(this,
-                this.relToGame(mobileData[i].x, 'x'),
-                this.relToGame(mobileData[i].y, 'y'),
-                mobileData[i].key, i));
+            // only draw the mobile control button if the upgrade is activated
+            if (mobileData[i].key === 'mobileRight' ||                                          // right button is always drawn
+                (mobileData[i].key === 'mobileLeft' && this.data.activeUpgrades[3]) ||          // draw left button only if upgrade (index: 2) is active
+                (mobileData[i].key === 'mobileCrouch' && this.data.activeUpgrades[4]) ||        // draw crouch button only if upgrade (index: 2) is active
+                (mobileData[i].key === 'mobileJump' && this.data.activeUpgrades[2])) {          // draw jump button only if upgrade (index: 2) is active
 
+                    let button = this.add.existing(new MobileControl(this,
+                    this.relToGame(mobileData[i].x, 'x'),
+                    this.relToGame(mobileData[i].y, 'y'),
+                    mobileData[i].key, i));
+            }
         }
 
 
