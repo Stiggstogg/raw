@@ -20,6 +20,7 @@ export default class Block extends Phaser.GameObjects.TileSprite {
 
         // add physics to the sprite
         scene.physics.add.existing(this, true);
+
     }
 
 }

@@ -118,6 +118,9 @@ export default class gameScene extends Phaser.Scene {
         // this.debugJump.setText(this.mobileControlPressed.jump.toString());
 
 
+        // update player
+        this.player.update();
+
         // movement (left, right)
         if (((this.keyLeft.isDown && !this.keyRight.isDown) ||
             (this.mobileControlPressed.left && !this.mobileControlPressed.right))
@@ -132,11 +135,7 @@ export default class gameScene extends Phaser.Scene {
             this.player.move();
         }
 
-        // jump
-        if ((this.keySpace.isDown || this.mobileControlPressed.jump)
-            && this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
-            this.player.move('up');
-        }
+        // jump is done with events, to only jump once it
 
     }
 
@@ -145,15 +144,36 @@ export default class gameScene extends Phaser.Scene {
      */
     addKeys() {
 
-        // up and down keys (moving the selection of the entries)
-        this.keyDown = this.input.keyboard.addKey('Down');
-        this.keySpace = this.input.keyboard.addKey('SPACE');
-        this.keyLeft = this.input.keyboard.addKey('Left');
+        // left right keys (movement of left and right is implemented in the update function)
+        this.keyLeft = this.input.keyboard.addKey('Left');      //
         this.keyRight = this.input.keyboard.addKey('Right');
 
-        // enter and space key (confirming a selection)
-        //this.input.keyboard.addKey('Enter').on('down', function() { this.spaceEnterKey() }, this);
-        //this.input.keyboard.addKey('Space').on('down', function() { this.spaceEnterKey() }, this);
+        // jump (jump is done with events, to only jump once it)
+        this.input.keyboard.addKey('Space').on('down', function() {
+
+            if (this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
+                this.player.move('up');
+            }
+
+        }, this);
+
+        // crouch
+        const downKey = this.input.keyboard.addKey('Down').on('down', function() {
+
+            if (this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
+                this.player.move('down');
+            }
+
+        }, this);
+
+        // uncrouch
+        downKey.on('up', function() {
+
+            if (this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
+                this.player.uncrouch();
+            }
+
+        }, this);
 
     }
 
@@ -173,15 +193,30 @@ export default class gameScene extends Phaser.Scene {
         // event listener to listen for any presses of buttons
         eventsCenter.on('mobileDown', function(type) {          // set "control pressed" to true for this control
             this.mobileControlPressed[type] = true;
+
+            if (type === 'jump' && this.data.activeUpgrades[2]) {        // jump is handled by events (similar to jumping with the keys) to make sure it jumps only once
+                this.player.move('up');
+            }
+
+            if (type === 'crouch' && this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
+                this.player.move('down');
+            }
+
         }, this);
 
         eventsCenter.on('mobileUp', function(type) {          // set "control pressed" to false if the control is released
             this.mobileControlPressed[type] = false;
+
+            if (type === 'crouch' && this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
+                this.player.uncrouch();
+            }
+
         }, this);
 
         // cleanup the listeners for the events
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
-            eventsCenter.off('moveRight');
+            eventsCenter.off('mobileDown');
+            eventsCenter.off('mobileUp');
         });
 
     }
@@ -222,7 +257,8 @@ export default class gameScene extends Phaser.Scene {
             this.relToWorld(this.levelData.player.x, 'x'),
             this.relToWorld(this.levelData.player.y, 'y'),
             this.relToWorld(this.levelData.player.speed, 'x'),
-            this.relToWorld(this.levelData.player.jumpSpeed, 'y')));
+            this.relToWorld(this.levelData.player.jumpSpeed, 'y'),
+            this.data.activeUpgrades[6]));
 
         // make camera follow player
         this.cameras.main.startFollow(this.player);

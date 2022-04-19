@@ -1,9 +1,9 @@
 {
   "player": {
-    "x": 0.11,
-    "y": 0.62,
+    "x": 0.2,
+    "y": 0.85,
     "speed": 0.28,
-    "jumpSpeed": 0.93
+    "jumpSpeed": 1.15
   },
   "platforms": [
     {
@@ -12,14 +12,39 @@
       "numTiles": 22
     },
     {
-      "x": 0.06,
+      "x": 0.40,
       "y": 0.81,
       "numTiles": 4
     },
     {
-      "x": 0.17,
-      "y": 0.47,
-      "numTiles": 5
+      "x": 0.73,
+      "y": 0.64,
+      "numTiles": 1
+    },
+    {
+      "x": 0.85,
+      "y": 0.58,
+      "numTiles": 3
+    },
+    {
+      "x": 0.60,
+      "y": 0.24,
+      "numTiles": 2
+    },
+    {
+      "x": 0,
+      "y": 0.24,
+      "numTiles": 6
+    },
+    {
+      "x": 0,
+      "y": 0.10,
+      "numTiles": 2
+    },
+    {
+      "x": 0.09,
+      "y": 0.15,
+      "numTiles": 1
     }
   ],
   "checkpoints": [
