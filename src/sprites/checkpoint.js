@@ -1,5 +1,5 @@
 /**
- * Tile Sprite class
+ * Sprite class
  */
 export default class Checkpoint extends Phaser.GameObjects.Sprite {
 

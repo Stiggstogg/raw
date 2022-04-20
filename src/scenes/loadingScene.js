@@ -3,6 +3,7 @@ import playerImg from './../assets/images/Player.png';
 import blockImg from './../assets/images/Block.png';
 import backgroundImg from './../assets/images/Background.png';
 import checkpointImg from './../assets/images/Checkpoint.png';
+import finishImg from './../assets/images/finish.png';
 import editorBgImg from './../assets/images/EditorBackground.png';
 import buttonGraphicsImg from './../assets/images/button-graphics.png';
 import buttonSoundImg from './../assets/images/button-sound.png';
@@ -90,6 +91,7 @@ export default class loadingScene extends Phaser.Scene {
         this.load.image('block', blockImg);
         this.load.image('background', backgroundImg);
         this.load.image('checkpoint', checkpointImg);
+        this.load.image('finish', finishImg);
         this.load.image('editorBackground', editorBgImg);
 
         // load spritesheets
@@ -134,9 +136,9 @@ export default class loadingScene extends Phaser.Scene {
      */
     create() {
         //this.scene.start('Home');
-        this.scene.start('Game', {
+        this.scene.start('Build', {
             activeUpgrades: [true, true, true, true, true, true, true],            // order: graphics, sound, jump, left, crouch, platforms, double jump
-            activeCheckpoints: [false, false, false, false, false, false, false],
+            activeCheckpoints: [true, true, true, true, true, true, true],
         });   // TODO: Change back to see menu
     }
 

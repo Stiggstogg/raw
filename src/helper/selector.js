@@ -150,6 +150,59 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
     }
 
     /**
+     * Select next button (for mobile controls)
+     */
+    next() {
+
+        this.deselect();        // deselect the currently active button
+
+        if (this.selected.column >= this.structure[this.selected.row].length - 1) {         // check if currently the last entry (column) of the selected row is selected
+            this.selected.column = 0;                                                       // select the first column
+
+            if (this.selected.row >= this.structure.length - 1) {                           // check if currently the last row is selected
+                this.selected.row = 0;                                                      // select the first row
+            }
+            else {
+                this.selected.row = this.selected.row + 1;                                  // select the next row
+            }
+
+        }
+        else {
+            this.selected.column = this.selected.column + 1;                                // select the next column
+        }
+
+        this.select();          // select the new key
+
+    }
+
+    /**
+     * Select previous button (for mobile controls)
+     */
+    previous() {
+
+        this.deselect();        // deselect the currently active button
+
+        if (this.selected.column === 0) {                                           // check if currently the first entry (column) of the selected row is selected
+
+            if (this.selected.row === 0) {                                          // check if currently the first row is selected
+                this.selected.row = this.structure.length - 1;                      // select the last row
+            }
+            else {
+                this.selected.row = this.selected.row - 1;                          // select the previous row
+            }
+
+            this.selected.column = this.structure[this.selected.row].length - 1;    // select the last column
+
+        }
+        else {
+            this.selected.column = this.selected.column - 1;                        // select the previous column
+        }
+
+        this.select();          // select the new key
+
+    }
+
+    /**
      * Select the button
      */
     select() {

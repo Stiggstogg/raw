@@ -1,6 +1,7 @@
 import Player from './../sprites/player.js';
 import Block from './../sprites/block.js';
 import Checkpoint from './../sprites/checkpoint.js';
+import Finish from './../sprites/finish.js';
 import eventsCenter from './../helper/eventsCenter.js';
 
 /**
@@ -304,8 +305,14 @@ export default class gameScene extends Phaser.Scene {
 
                 this.checkpoints.add(checkpoint);
             }
-
         }
+
+        // -------------
+        // Finish
+        // -------------
+
+        this.finish = this.add.existing(new Finish(this, this.relToWorld(this.levelData.finish.x, 'x'),
+            this.relToWorld(this.levelData.finish.y, 'y')));
 
     }
 
@@ -320,6 +327,9 @@ export default class gameScene extends Phaser.Scene {
         // overlapping of player and checkpoints
         this.physics.add.overlap(this.player, this.checkpoints, this.checkpointOverlap, null, this);
 
+        // overlap of player and finish
+        this.physics.add.overlap(this.player, this.finish, this.finishOverlap, null, this);
+
     }
 
     /**
@@ -327,16 +337,29 @@ export default class gameScene extends Phaser.Scene {
      */
     checkpointOverlap(sourceSprite, targetSprite) {
 
-        // make checkpoint insivible
+        // make checkpoint invisible
         const spriteNumber = targetSprite.getNum();         // get number of the checkpoint which was touched
         this.data.activeCheckpoints[spriteNumber] = false;       // innactivate checkpoint for next time
 
         // pause game and UI scene
         this.scene.pause('Game');
-        this.scene.pause('UI');
 
         // launch editor scene
         this.scene.launch('Editor', this.data);
+
+    }
+
+    /**
+     * Function which is executed when the player touches the finish
+     */
+    finishOverlap(sourceSprite, targetSprite) {
+
+        // pause game and UI scene
+        this.scene.pause('Game');
+        //this.scene.pause('UI');
+
+        // launch finish scene
+        this.scene.launch('Finish', this.data);
 
     }
 

@@ -1,5 +1,6 @@
 import UpgradeButton from './../sprites/upgradeButton.js'
 import Selector from './../helper/selector.js'
+import eventsCenter from "../helper/eventsCenter";
 
 /**
  * "Editor" scene: Scene for the editor to choose upgrades
@@ -66,6 +67,9 @@ export default class editorScene extends Phaser.Scene {
         // Add keyboard inputs
         this.addKeys();
 
+        // add mobile control inputs
+        this.addMobileControls();
+
     }
 
     /**
@@ -90,6 +94,37 @@ export default class editorScene extends Phaser.Scene {
 
         // space key (confirming a selection)
         this.input.keyboard.addKey('Space').on('down', this.activateUpgrade, this);
+
+    }
+
+    /**
+     * Add mobile controls (through events)
+     */
+    addMobileControls() {
+
+        // event listener to listen for any presses of buttons
+        eventsCenter.on('mobileDown', function(type) {          // set "control pressed" to true for this control
+
+            switch(type) {
+                case 'left':
+                    this.selector.previous();                               // select previous button entry
+                    break;
+                case 'right':
+                    this.selector.next();                                   // select next button
+                    break;
+                case 'jump':
+                    this.activateUpgrade();                                   // choose the update
+                    break;
+                default:
+                    break
+            }
+
+        }, this);
+
+        // cleanup the listeners for the events
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
+            eventsCenter.off('mobileDown');
+        });
 
     }
 

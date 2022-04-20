@@ -7,13 +7,15 @@ import homeScene from './scenes/homeScene.js';
 import gameScene from './scenes/gameScene.js';
 import uiScene from './scenes/uiScene.js';
 import editorScene from './scenes/editorScene.js';
+import finishScene from './scenes/finishScene.js';
+import buildScene from './scenes/buildScene.js';
 
 // Start
 const config = {
     type: Phaser.AUTO,
     width: 180,
     height: 380,
-    scene: [bootScene, loadingScene, homeScene, gameScene, uiScene, editorScene],
+    scene: [bootScene, loadingScene, homeScene, gameScene, uiScene, editorScene, finishScene, buildScene],
     title: 'Upgrade',                  // Shown in the console
     scale: {
         mode: Phaser.Scale.FIT,
@@ -27,7 +29,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 1000},
-            debug: false
+            debug: true
          }
     }
 };
