@@ -354,9 +354,8 @@ export default class gameScene extends Phaser.Scene {
      */
     finishOverlap(sourceSprite, targetSprite) {
 
-        // pause game and UI scene
+        // pause game scene
         this.scene.pause('Game');
-        //this.scene.pause('UI');
 
         // launch finish scene
         this.scene.launch('Finish', this.data);

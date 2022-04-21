@@ -118,12 +118,11 @@ export default class uiScene extends Phaser.Scene {
     backToMenu() {
 
         // Stop UI, Finish and Game scene (to make them disappear)
-        this.scene.stop('UI');
-        this.scene.stop('Finish');
-        this.scene.stop('Game');
+        this.scene.stop('UI');              // stop UI scene (which is still running)
+        this.scene.stop('Game');            // stop the game scene
 
         // start home scene
-        this.scene.start('Home')
+        this.scene.start('Home');
 
     }
 

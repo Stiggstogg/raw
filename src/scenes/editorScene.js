@@ -209,7 +209,8 @@ export default class editorScene extends Phaser.Scene {
             case 1:                     // upgrade available
                 this.data.activeUpgrades[selectedButton.getButtonIndex()] = true;       // activate this upgrade
                 this.scene.stop('UI');                                              // stop UI scene
-                this.scene.start('Game', this.data);                                // start game scene again
+                this.scene.stop('Game');                                            // stop game scene (which is still paused)
+                this.scene.start('Build', this.data);                               // start game scene again
                 break;
             default:
                 console.log('Upgrade already active!');

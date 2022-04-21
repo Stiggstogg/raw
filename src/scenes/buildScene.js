@@ -44,8 +44,8 @@ export default class buildScene extends Phaser.Scene {
             'Move right....'
         ];
 
-        buildTexts.push(' ')
-        buildTexts.push('\nBuild finished\nStarting game....')
+        buildTexts.push(' ');
+        buildTexts.push('\nBuild finished\nStarting game....');
 
         // TODO: Add more build texts based on activated features
 
@@ -61,21 +61,31 @@ export default class buildScene extends Phaser.Scene {
         let i = 0
         this.time.addEvent({
             delay: 500,
-            repeat: buildTexts.length - 1,
+            repeat: buildTexts.length,      // repeat it for every entry PLUS ONE (in the last repetition the next scene will be started)
             callback: function() {
 
-                this.add.text(
-                    this.relToGame(0.05, 'x'),
-                    this.relToGame(0.10 + i * this.space, 'y'),
-                    buildTexts[i], textStyle);
+                if (i <= buildTexts.length - 1) {
 
-                console.log(buildTexts[i]);
+                    this.add.text(                                  // show next text line
+                        this.relToGame(0.05, 'x'),
+                        this.relToGame(0.10 + i * this.space, 'y'),
+                        buildTexts[i], textStyle);
 
-                i = i + 1;
+                    i = i + 1;
+
+                }
+                else {
+                    this.startGame();
+                }
+
 
             },
             callbackScope: this
         });
+
+        if (i >= buildTexts.length - 1) {
+            console.log('go');
+        }
 
 
     }
@@ -90,43 +100,12 @@ export default class buildScene extends Phaser.Scene {
     }
 
     /**
-     * Function shows the instructions and setups the buttons and keys to go back to the menu
+     * Start the game scene
      */
-    goBackSetup() {
+    startGame() {
 
-        // make instructions visible
-        this.instructions.setVisible(true);
-
-        // add the keyboard buttons and listeners
-        this.input.keyboard.addKey('Up').on('down', this.backToMenu, this);
-        this.input.keyboard.addKey('Down').on('down', this.backToMenu, this);
-        this.input.keyboard.addKey('Left').on('down', this.backToMenu, this);
-        this.input.keyboard.addKey('Right').on('down', this.backToMenu, this);
-        this.input.keyboard.addKey('Space').on('down', this.backToMenu, this);
-        this.input.keyboard.addKey('Enter').on('down', this.backToMenu, this);
-
-        // add listeners for the mobile buttons
-        eventsCenter.on('mobileDown', this.backToMenu, this);
-
-        // cleanup the listeners for the events
-        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
-            eventsCenter.off('mobileDown');
-        });
-
-    }
-
-    /**
-     * Go back to main menu
-     */
-    backToMenu() {
-
-        // Stop UI, Finish and Game scene (to make them disappear)
-        this.scene.stop('UI');
-        this.scene.stop('Finish');
-        this.scene.stop('Game');
-
-        // start home scene
-        this.scene.start('Home')
+        // start the game scene
+        this.scene.start('Game', this.data);
 
     }
 

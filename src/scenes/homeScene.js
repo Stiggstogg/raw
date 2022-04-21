@@ -31,8 +31,8 @@ export default class gameScene extends Phaser.Scene {
 
         // Title
         this.title = this.add.text(this.gw / 2, this.gh * 0.2, 'My Game', {
-            fontFamily: 'Arial',
-            fontSize: '70px',
+            fontFamily: 'Courier',
+            fontSize: '80px',
             color: '#FFFF00',
             fontStyle: 'bold'
         }).setOrigin(0.5, 0.5);
@@ -40,7 +40,7 @@ export default class gameScene extends Phaser.Scene {
         // Instruction / press key text
         this.add.text(this.gw / 2, this.gh - 46,
             'Use arrow keys or W, A, S, D to select\nUse [SPACE] or [ENTER] to confirm', {
-                font: '20px Arial',
+                font: '14px Courier',
                 fill: '#27ff00'
             }).setOrigin(0.5);
 
@@ -64,15 +64,15 @@ export default class gameScene extends Phaser.Scene {
 
         // styles of the menu entries (active or inactive)
         this.inactiveStyle = {
-            fontFamily: 'Arial',
-            fontSize: '40px',
+            fontFamily: 'Courier',
+            fontSize: '60px',
             fontStyle: '',
             fill: '#ffff00'
         }
 
         this.activeStyle = {
-            fontFamily: 'Arial',
-            fontSize: '50px',
+            fontFamily: 'Courier',
+            fontSize: '70px',
             fontStyle: 'bold',
             fill: '#0000ff'
         }
@@ -166,7 +166,10 @@ export default class gameScene extends Phaser.Scene {
 
         switch(this.selected) {
             case 0:                 // start the game when the first entry is selected ("Start")
-                this.scene.start('Game');
+                this.scene.start('Build', {
+                    activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+                    activeCheckpoints: [true, true, true, true, true, true, true],
+                });
                 break;
             case 1:                 // start the "Howto" scene when the "How To Play" entry is selected
                 console.log("HowTo");

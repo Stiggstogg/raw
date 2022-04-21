@@ -135,11 +135,11 @@ export default class loadingScene extends Phaser.Scene {
      * Add the animations and change to "Home" scene, directly after loading
      */
     create() {
-        //this.scene.start('Home');
-        this.scene.start('Build', {
-            activeUpgrades: [true, true, true, true, true, true, true],            // order: graphics, sound, jump, left, crouch, platforms, double jump
-            activeCheckpoints: [true, true, true, true, true, true, true],
-        });   // TODO: Change back to see menu
+        this.scene.start('Home');
+        //this.scene.start('Build', {                           TODO: Remove! Is here just for testing.
+        //    activeUpgrades: [true, true, true, true, true, true, true],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+        //    activeCheckpoints: [true, true, true, true, true, true, true],
+        //});
     }
 
 }

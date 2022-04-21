@@ -12,26 +12,28 @@ import buildScene from './scenes/buildScene.js';
 
 // Start
 const config = {
-    type: Phaser.AUTO,
-    width: 180,
-    height: 380,
+    type: Phaser.WEBGL, //Phaser.AUTO,
+    width: 540,
+    height: 1140,
     scene: [bootScene, loadingScene, homeScene, gameScene, uiScene, editorScene, finishScene, buildScene],
     title: 'Upgrade',                  // Shown in the console
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    //pixelArt: true,                                     // if true pixel perfect rendering is used (sets antialias: false and roundPixels: true)
-    roundPixels: true,
-    antialias: true,
+    pixelArt: true,                                     // if true pixel perfect rendering is used (sets antialias: false and roundPixels: true)
+    // render: {
+    //     roundPixels: true,
+    //     antialias: true,
+    // },
     backgroundColor: '#000000',
     physics: {
         default: 'arcade',
         arcade: {
             gravity: {y: 1000},
-            debug: true
+            debug: false
          }
-    }
+    },
 };
 
 const game = new Phaser.Game(config);
