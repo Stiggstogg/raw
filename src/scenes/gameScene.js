@@ -241,6 +241,57 @@ export default class gameScene extends Phaser.Scene {
         // add background
         this.add.image(0, 0, 'background').setOrigin(0);
 
+        // show instruction text and arrows
+        this.instructionText();
+
+    }
+
+    /**
+     * Adds the instruction text (if needed) to the game scene
+     */
+    instructionText() {
+
+        // check if all upgrades are deactivated (this means that it is a new game)
+        let newGame = true;
+
+        for (let i = 0; i < this.data.activeUpgrades.length; i++) {
+
+            if (this.data.activeUpgrades[i]) {      // if one of the upgrades is activated it is not a new game
+                newGame = false;
+            }
+
+        }
+
+        if (newGame) {
+
+            this.add.text(this.relToWorld(0.05, 'x'), this.relToWorld(0.30, 'y'),
+                'Welcome. You are caught in your own game!\n' +
+                'It still looks pretty RAW. At the moment you can only move right.\n' +
+                'Collect breakpoints, add new features and create a new build. Repeat that until you are able to reach the exit and escape your game.\n' +
+                'Enjoy UNRAWIFYING your game!', {
+                    fontSize: '30px',
+                    fill: '#000000',
+                    fontStyle: 'bold',
+                    wordWrap: {width: this.relToWorld(0.45, 'x')}
+                }
+            )
+
+            // add arrows
+            this.add.sprite(this.relToWorld(0.07, 'x'), this.relToWorld(0.16, 'y'), 'arrow').setRotation(225 * Math.PI / 180);
+            this.add.sprite(this.relToWorld(0.41, 'x'), this.relToWorld(0.90, 'y'), 'arrow').setRotation(135 * Math.PI / 180);
+
+            // label of finish and checkpoint
+            const textStyle = {
+                fontSize: '30px',
+                fill: '#000000',
+                fontStyle: 'bold',
+            }
+
+            this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.13, 'y'), 'Exit', textStyle).setOrigin(0, 0.5);
+            this.add.text(this.relToWorld(0.38, 'x'), this.relToWorld(0.87, 'y'), 'Breakpoint', textStyle).setOrigin(1, 0.5);
+
+        }
+
     }
 
     /**

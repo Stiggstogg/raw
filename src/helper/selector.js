@@ -10,7 +10,7 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
      * @param {number} lineColor - color of the line
      * @param {Phaser.GameObjects.Group} buttonGroup - group with all the upgrade buttons
      */
-    constructor(scene, lineWidth, lineColor, buttonGroup) {
+    constructor(scene, lineWidth, lineColor, buttonGroup, text, errorText, okButton) {
 
         super(scene, 0, 0, buttonGroup.getChildren()[0].width + lineWidth, buttonGroup.getChildren()[0].height + lineWidth);
 
@@ -28,6 +28,10 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
             row: 0,
             column: 0
         }
+
+        this.text = text;               // text field which describes the upgrade
+        this.errorText = errorText;     // text field which describes if there is an error
+        this.okButton = okButton;       // Ok button to confirm the upgrade
 
         this.select();
 
@@ -209,9 +213,27 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
 
         const button = this.getSelectedButton();     // get the button to select
 
-        button.select();                                                            // select this button
+        button.select();                             // select this button
 
-        this.setPosition(button.x, button.y);                                       // change the position of the rectangle to the one of the button
+        this.setPosition(button.x, button.y);        // change the position of the rectangle to the one of the button
+
+        this.text.setText(this.getText());           // provide description of the text
+
+        // show the error text if needed
+        switch (this.getSelectedButton().getButtonState()) {
+            case 0:
+                this.errorText.setText('Not yet available!');
+                this.okButton.notSelectable();
+                break;
+            case 1:
+                this.errorText.setText('');
+                this.okButton.selectable();
+                break;
+            case 2:
+                this.errorText.setText('Already activated!');
+                this.okButton.notSelectable();
+                break;
+        }
 
     }
 
@@ -222,6 +244,13 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
 
         return this.structure[this.selected.row][this.selected.column];
 
+    }
+
+    /**
+     * Get text of selected button
+     */
+    getText() {
+        return this.getSelectedButton().getText();
     }
 
 }

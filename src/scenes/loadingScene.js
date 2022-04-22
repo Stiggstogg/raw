@@ -16,6 +16,8 @@ import mobileLeftImg from './../assets/images/mobile-left.png';
 import mobileRightImg from './../assets/images/mobile-right.png';
 import mobileCrouchImg from './../assets/images/mobile-crouch.png';
 import mobileJumpImg from './../assets/images/mobile-jump.png';
+import okImg from './../assets/images/OK.png';
+import arrowImg from './../assets/images/arrow.png';
 import levelJson from './../assets/json/level.json';
 import uiJson from './../assets/json/uiElements.json';
 
@@ -93,11 +95,12 @@ export default class loadingScene extends Phaser.Scene {
         this.load.image('checkpoint', checkpointImg);
         this.load.image('finish', finishImg);
         this.load.image('editorBackground', editorBgImg);
+        this.load.image('arrow', arrowImg);
 
         // load spritesheets
         const buttonProperties = {
-            frameWidth: 16,
-            frameHeight: 16,
+            frameWidth: 48,
+            frameHeight: 48,
             margin: 0,
             spacing: 0
         };
@@ -111,8 +114,8 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
         const mobileProperties = {
-            frameWidth: 25,
-            frameHeight: 25,
+            frameWidth: 75,
+            frameHeight: 75,
             margin: 0,
             spacing: 0
         };
@@ -121,6 +124,8 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('mobileRight', mobileRightImg, mobileProperties);
         this.load.spritesheet('mobileCrouch', mobileCrouchImg, mobileProperties);
         this.load.spritesheet('mobileJump', mobileJumpImg, mobileProperties);
+
+        this.load.spritesheet('okButton', okImg, mobileProperties);
 
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');
@@ -136,9 +141,9 @@ export default class loadingScene extends Phaser.Scene {
      */
     create() {
         this.scene.start('Home');
-        //this.scene.start('Build', {                           TODO: Remove! Is here just for testing.
-        //    activeUpgrades: [true, true, true, true, true, true, true],            // order: graphics, sound, jump, left, crouch, platforms, double jump
-        //    activeCheckpoints: [true, true, true, true, true, true, true],
+        //this.scene.start('Editor', {                           //TODO: Remove! Is here just for testing.
+            //activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+            //activeCheckpoints: [true, true, true, true, true, true, true],
         //});
     }
 

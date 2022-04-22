@@ -7,13 +7,14 @@ export default class UpgradeButton extends Phaser.GameObjects.Sprite {
      * Constructor
      * @constructor
      */
-    constructor(scene, x, y, img, buttonIndex) {
+    constructor(scene, x, y, img, buttonIndex, text) {
 
         super(scene, x, y, img, 0);
 
         this.selected = false;              // true if the button is selected
         this.buttonState = 0;               // state of the button / upgrade: 0: not available, 1: available, 2: already active
         this.buttonIndex = buttonIndex;     // index of the button: 0: graphics, 1: sound, 2: jump, 3: left, 4: crouch, 5: platforms, 6: double jump
+        this.text = text;                   // text which describes the upgrade
 
     }
 
@@ -51,6 +52,13 @@ export default class UpgradeButton extends Phaser.GameObjects.Sprite {
      */
     getButtonState() {
         return this.buttonState;
+    }
+
+    /**
+     * Get text
+     */
+    getText() {
+        return this.text;
     }
 
 }

@@ -166,7 +166,7 @@ export default class gameScene extends Phaser.Scene {
 
         switch(this.selected) {
             case 0:                 // start the game when the first entry is selected ("Start")
-                this.scene.start('Build', {
+                this.scene.start('Build', {                                 // TODO: change back to build
                     activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
                     activeCheckpoints: [true, true, true, true, true, true, true],
                 });

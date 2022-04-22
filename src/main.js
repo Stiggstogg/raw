@@ -21,11 +21,9 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    pixelArt: true,                                     // if true pixel perfect rendering is used (sets antialias: false and roundPixels: true)
-    // render: {
-    //     roundPixels: true,
-    //     antialias: true,
-    // },
+    //pixelArt: true,                                     // if true pixel perfect rendering is used (sets antialias: false and roundPixels: true)
+    roundPixels: true,
+    antialias: true,
     backgroundColor: '#000000',
     physics: {
         default: 'arcade',

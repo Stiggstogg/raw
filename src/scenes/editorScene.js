@@ -1,5 +1,7 @@
 import UpgradeButton from './../sprites/upgradeButton.js'
 import Selector from './../helper/selector.js'
+import OkButton from './../sprites/okButton.js'
+import LineDrawer from './../helper/lineDrawer.js';
 import eventsCenter from "../helper/eventsCenter";
 
 /**
@@ -148,6 +150,26 @@ export default class editorScene extends Phaser.Scene {
         const background = this.add.image(0, 0, 'editorBackground');
         background.setDisplaySize(this.editorArea.width, this.editorArea.height).setOrigin(0);
 
+        // ------------------
+        // Instruction text
+        // ------------------
+
+        this.add.text(this.relToWorld(0.10), this.relToWorld(0.05), 'Select an upgrade for your game!', {
+                fontSize: '30px',
+                fill: '#000000',
+                fontStyle: 'bold',
+                wordWrap: {width: this.relToWorld(0.9, 'x')}
+            }
+        )
+
+        this.add.text(this.relToWorld(0.1), this.relToWorld(0.2), 'Arrows or touch to select. SPACE or "OK" to confirm.', {
+                fontSize: '20px',
+                fill: '#000000',
+                fontStyle: 'bold',
+                wordWrap: {width: this.relToWorld(0.9, 'x')}
+            }
+        )
+
         // ------------
         // buttons
         // ------------
@@ -161,7 +183,7 @@ export default class editorScene extends Phaser.Scene {
             let button = this.add.existing(new UpgradeButton(this,
                 this.relToWorld(buttonData[i].x, 'x'),
                 this.relToWorld(buttonData[i].y, 'y'),
-                buttonData[i].key, i));
+                buttonData[i].key, i, buttonData[i].text));
 
             this.upgradeButtons.add(button);            // add the button to the group
 
@@ -190,8 +212,36 @@ export default class editorScene extends Phaser.Scene {
 
         }
 
+        // textfield which describes the upgrade
+        this.upgradeText = this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.60, 'y'), ' ', {
+            fontSize: '30px',
+            fill: '#000000',
+            fontStyle: 'bold',
+            wordWrap: {width: this.relToWorld(0.9, 'x')}
+            }
+        )
+
+        // OK button
+        this.okButton = this.add.existing(new OkButton(this, this.relToWorld(0.5, 'x'), this.relToWorld(0.9, 'y')));
+        this.okButton.on('pointerdown', this.activateUpgrade, this);
+
+        // textfield which describes when an upgrade is not available
+        this.errorText = this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.80, 'y'), ' ', {
+                fontSize: '20px',
+                fill: '#ff0000',
+                fontStyle: 'bold',
+                wordWrap: {width: this.relToWorld(0.9, 'x')}
+            }
+        )
+
         // selector
-        this.selector = this.add.existing(new Selector(this, 2, 0xffff00, this.upgradeButtons));
+        this.selector = this.add.existing(new Selector(this, 2, 0xffff00, this.upgradeButtons, this.upgradeText,
+            this.errorText, this.okButton));
+
+        // lines between the upgrades
+        const lineDrawer = new LineDrawer(this, this.upgradeButtons);
+
+
 
     }
 
@@ -202,19 +252,11 @@ export default class editorScene extends Phaser.Scene {
 
         const selectedButton = this.selector.getSelectedButton();
 
-        switch (selectedButton.getButtonState()) {
-            case 0:                     // upgrade is not available
-                console.log('Upgrade not available!');
-                break;
-            case 1:                     // upgrade available
-                this.data.activeUpgrades[selectedButton.getButtonIndex()] = true;       // activate this upgrade
-                this.scene.stop('UI');                                              // stop UI scene
-                this.scene.stop('Game');                                            // stop game scene (which is still paused)
-                this.scene.start('Build', this.data);                               // start game scene again
-                break;
-            default:
-                console.log('Upgrade already active!');
-                break;
+        if (selectedButton.getButtonState() === 1) {
+            this.data.activeUpgrades[selectedButton.getButtonIndex()] = true;       // activate this upgrade
+            this.scene.stop('UI');                                              // stop UI scene
+            this.scene.stop('Game');                                            // stop game scene (which is still paused)
+            this.scene.start('Build', this.data);                               // start game scene again
         }
 
     }
