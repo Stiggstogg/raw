@@ -28,6 +28,7 @@ export default class buildScene extends Phaser.Scene {
         // settings
         this.space = 0.05;          // relative spacing between the texts
 
+
     }
 
     /**
@@ -35,58 +36,84 @@ export default class buildScene extends Phaser.Scene {
      */
     create() {
 
+        // parameters for the text
+        const textStyle = {
+            fontSize: '30px',
+            fill: '#ffffff',
+            fontStyle: 'bold',
+            wordWrap: {width: this.relToGame(0.9, 'x')}
+            };
+
+        const ySpace = this.relToGame(0.01, 'y');   // space between lines
+        const xPos = this.relToGame(0.03, 'x');     // x position of the
+
+        // Add Title text
+        const titleText = this.add.text(xPos,
+            this.relToGame(0.03, 'y'),
+            'Starting Game Builder v3.2.3....\n\n' +
+            'Building game.....\n',
+            textStyle);
+
+
         // building text
         const buildTexts = [
-            'Starting Game Builder v3.2.3....',
-            'Building game.....',
-            ' ',
-            'Adding features:',
-            'Move right....'
+            'Adding features...',
+            '- Move right'
         ];
 
-        buildTexts.push(' ');
-        buildTexts.push('\nBuild finished\nStarting game....');
+        // texts of the different upgrades
+        const upgradeTexts = [
+            '- Graphics',
+            '- Music',
+            '- Jump',
+            '- Move left',
+            '- Crouch',
+            '- Platforms',
+            '- Double Jump'
+        ];
 
-        // TODO: Add more build texts based on activated features
-
-        // text styles
-        const textStyle = {
-            fontSize: '10px',
-            fill: '#ffffff',
-            wordWrap: {width: this.relToGame(0.9, 'x')}
-
+        // add build texts depending on activated features
+        for (let i = 0; i < this.data.activeUpgrades.length; i++) {
+            if (this.data.activeUpgrades[i]) {
+                buildTexts.push(upgradeTexts[i]);
+            }
         }
 
+
+        buildTexts.push(' ');
+        buildTexts.push('\nBuild finished!\nPress SPACE or touch the screen to start.');
+
+
         // Show build texts one after another
-        let i = 0
+        let j = 0                                                   // counter for the different texts
+        let yNext = titleText.y + titleText.height + 2 * ySpace;
+        let tempText;
+
         this.time.addEvent({
-            delay: 500,
+            delay: 300,
             repeat: buildTexts.length,      // repeat it for every entry PLUS ONE (in the last repetition the next scene will be started)
             callback: function() {
 
-                if (i <= buildTexts.length - 1) {
+                if (j <= buildTexts.length - 1) {
 
-                    this.add.text(                                  // show next text line
-                        this.relToGame(0.05, 'x'),
-                        this.relToGame(0.10 + i * this.space, 'y'),
-                        buildTexts[i], textStyle);
+                    tempText = this.add.text(                                  // show next text line
+                        xPos,
+                        yNext,
+                        buildTexts[j], textStyle);
 
-                    i = i + 1;
+                    yNext = tempText.y + tempText.height + ySpace;
+                    j = j + 1;
 
                 }
                 else {
-                    this.startGame();
+                    this.input.keyboard.addKey('Space').on('down', this.startGame, this);
+                    this.input.on('pointerdown', this.startGame, this);
                 }
 
 
             },
             callbackScope: this
         });
-
-        if (i >= buildTexts.length - 1) {
-            console.log('go');
-        }
-
 
     }
 

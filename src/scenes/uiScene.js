@@ -50,10 +50,8 @@ export default class uiScene extends Phaser.Scene {
         // setup mobile control buttons
         this.mobileControlsSetup();
 
-        this.events.on('moveRight', function () {
-            console.log('I can hear it!');
-        }, this.scene);
-
+        // home button (including keyboard) and text setup
+        this.homeButtonSetup();
     }
 
     /**
@@ -82,8 +80,7 @@ export default class uiScene extends Phaser.Scene {
 
             // only draw the mobile control button if the upgrade is activated
             if (mobileData[i].key === 'mobileRight' ||                                          // right button is always drawn
-                (mobileData[i].key === 'mobileLeft' && this.data.activeUpgrades[3]) ||          // draw left button only if upgrade (index: 2) is active
-                (mobileData[i].key === 'mobileCrouch' && this.data.activeUpgrades[4]) ||        // draw crouch button only if upgrade (index: 2) is active
+                (mobileData[i].key === 'mobileLeft' && this.data.activeUpgrades[3]) ||          // draw left button only if upgrade (index: 3) is active
                 (mobileData[i].key === 'mobileJump' && this.data.activeUpgrades[2])) {          // draw jump button only if upgrade (index: 2) is active
 
                     let button = this.add.existing(new MobileControl(this,
@@ -93,7 +90,30 @@ export default class uiScene extends Phaser.Scene {
             }
         }
 
+    }
 
+    /**
+     * Setup the home button, the text and the key
+     */
+    homeButtonSetup() {
+
+        // add home button
+        const homeButton = this.add.sprite(this.relToGame(0.98, 'x'), this.relToGame(0.02, 'x'), 'back').setOrigin(1, 0).setInteractive();
+
+        homeButton.on('pointerdown', this.backToMenu, this);    // add action to home button
+
+        // add esc key
+        this.input.keyboard.addKey('Esc').on('down', this.backToMenu, this);
+
+    }
+
+    /**
+     * Go back to main menu
+     */
+    backToMenu() {
+        this.scene.stop('Game');    // stop game scene
+        this.scene.stop('Editor');    // stop UI scene
+        this.scene.start('Home');
     }
 
     /**

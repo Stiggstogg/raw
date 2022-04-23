@@ -67,7 +67,7 @@ export default class gameScene extends Phaser.Scene {
 
         // launch UI scene
         this.scene.launch('UI', this.data);
-        this.scene.bringToTop();        // bring this scene on top of the UI scene
+        //this.scene.bringToTop();        // bring this scene on top of the UI scene
 
         // creates the world
         this.createWorld();
@@ -84,25 +84,6 @@ export default class gameScene extends Phaser.Scene {
         // add mobile control inputs (through events)
         this.addMobileControls();
 
-        // TODO: Remove. Just used as template
-        // Instruction / press key text
-        // this.add.text(this.gw / 2, this.gh - 46,
-        //     'Use arrow keys or W, A, S, D to move Sponge Bob around\n' +
-        //     'Click with the mouse on it to finish the game', {
-        //         font: '20px Arial',
-        //         fill: '#27ff00'
-        //     }).setOrigin(0.5);
-
-        // TODO: Remove. For touch optimization
-        // this.add.text(20, 20, 'Left:',{fill: '#000000'});
-        // this.add.text(20, 40, 'Right:', {fill: '#000000'});
-        // this.add.text(20, 60, 'Crouch:', {fill: '#000000'});
-        // this.add.text(20, 80, 'Jump', {fill: '#000000'});
-        // this.debugLeft = this.add.text(100, 20, 'wat', {fill: '#000000'});
-        // this.debugRight = this.add.text(100, 40, '', {fill: '#000000'});
-        // this.debugCrouch = this.add.text(100, 60, '', {fill: '#000000'});
-        // this.debugJump = this.add.text(100, 80, '', {fill: '#000000'});
-
     }
 
     /**
@@ -111,13 +92,6 @@ export default class gameScene extends Phaser.Scene {
      * @param {number} delta
      */
     update(time, delta) {
-
-        // TODO: Remove. For touch optimization
-        // this.debugLeft.setText(this.mobileControlPressed.left.toString());
-        // this.debugRight.setText(this.mobileControlPressed.right.toString());
-        // this.debugCrouch.setText(this.mobileControlPressed.crouch.toString());
-        // this.debugJump.setText(this.mobileControlPressed.jump.toString());
-
 
         // update player
         this.player.update();
@@ -154,24 +128,6 @@ export default class gameScene extends Phaser.Scene {
 
             if (this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
                 this.player.move('up');
-            }
-
-        }, this);
-
-        // crouch
-        const downKey = this.input.keyboard.addKey('Down').on('down', function() {
-
-            if (this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
-                this.player.move('down');
-            }
-
-        }, this);
-
-        // uncrouch
-        downKey.on('up', function() {
-
-            if (this.data.activeUpgrades[4]) {      // check if crouch upgrade (index: 4) is active
-                this.player.uncrouch();
             }
 
         }, this);
@@ -238,8 +194,10 @@ export default class gameScene extends Phaser.Scene {
 
         //this.cameras.main.setBackgroundColor('rgba(255, 0, 0, 0.5)');
 
-        // add background
-        this.add.image(0, 0, 'background').setOrigin(0);
+        // add background (if graphics upgrade is activated
+        if (this.data.activeUpgrades[0]) {
+            this.add.image(0, 0, 'background').setOrigin(0);
+        }
 
         // show instruction text and arrows
         this.instructionText();
@@ -270,7 +228,7 @@ export default class gameScene extends Phaser.Scene {
                 'Collect breakpoints, add new features and create a new build. Repeat that until you are able to reach the exit and escape your game.\n' +
                 'Enjoy UNRAWIFYING your game!', {
                     fontSize: '30px',
-                    fill: '#000000',
+                    fill: '#ffffff',
                     fontStyle: 'bold',
                     wordWrap: {width: this.relToWorld(0.45, 'x')}
                 }
@@ -283,7 +241,7 @@ export default class gameScene extends Phaser.Scene {
             // label of finish and checkpoint
             const textStyle = {
                 fontSize: '30px',
-                fill: '#000000',
+                fill: '#ffffff',
                 fontStyle: 'bold',
             }
 
@@ -310,7 +268,9 @@ export default class gameScene extends Phaser.Scene {
             this.relToWorld(this.levelData.player.y, 'y'),
             this.relToWorld(this.levelData.player.speed, 'x'),
             this.relToWorld(this.levelData.player.jumpSpeed, 'y'),
-            this.data.activeUpgrades[6]));
+            this.data.activeUpgrades[6],
+            this.data.activeUpgrades[4],
+            this.data.activeUpgrades[0]));
 
         // make camera follow player
         this.cameras.main.startFollow(this.player);
@@ -328,7 +288,7 @@ export default class gameScene extends Phaser.Scene {
 
                 let platformData = this.levelData.platforms[i];
 
-                let platform = new Block(this, this.relToWorld(platformData.x, 'x'), this.relToWorld(platformData.y, 'y'), platformData.numTiles);
+                let platform = new Block(this, this.relToWorld(platformData.x, 'x'), this.relToWorld(platformData.y, 'y'), platformData.numTiles, this.data.activeUpgrades[0]);
 
                 this.add.existing(platform);
 
@@ -350,7 +310,7 @@ export default class gameScene extends Phaser.Scene {
                 let checkpoint = new Checkpoint(this,
                     this.relToWorld(checkpointData.x, 'x'),
                     this.relToWorld(checkpointData.y, 'y'),
-                    i);
+                    i, this.data.activeUpgrades[0]);
 
                 this.add.existing(checkpoint);
 
@@ -363,7 +323,7 @@ export default class gameScene extends Phaser.Scene {
         // -------------
 
         this.finish = this.add.existing(new Finish(this, this.relToWorld(this.levelData.finish.x, 'x'),
-            this.relToWorld(this.levelData.finish.y, 'y')));
+            this.relToWorld(this.levelData.finish.y, 'y'), this.data.activeUpgrades[0]));
 
     }
 

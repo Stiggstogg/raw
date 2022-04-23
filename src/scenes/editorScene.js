@@ -154,7 +154,7 @@ export default class editorScene extends Phaser.Scene {
         // Instruction text
         // ------------------
 
-        this.add.text(this.relToWorld(0.10), this.relToWorld(0.05), 'Select an upgrade for your game!', {
+        this.add.text(this.relToWorld(0.10), this.relToWorld(0.05), 'Choose a new feature for your game!', {
                 fontSize: '30px',
                 fill: '#000000',
                 fontStyle: 'bold',

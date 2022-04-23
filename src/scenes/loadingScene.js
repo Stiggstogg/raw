@@ -10,13 +10,13 @@ import buttonSoundImg from './../assets/images/button-sound.png';
 import buttonLeftImg from './../assets/images/button-left.png';
 import buttonJumpImg from './../assets/images/button-jump.png';
 import buttonDoublejumpImg from './../assets/images/button-doublejump.png';
-import buttonCrouchImg from './../assets/images/button-crouch.png';
 import buttonPlatformsImg from './../assets/images/button-platforms.png';
 import mobileLeftImg from './../assets/images/mobile-left.png';
 import mobileRightImg from './../assets/images/mobile-right.png';
 import mobileCrouchImg from './../assets/images/mobile-crouch.png';
 import mobileJumpImg from './../assets/images/mobile-jump.png';
 import okImg from './../assets/images/OK.png';
+import backImg from './../assets/images/back.png';
 import arrowImg from './../assets/images/arrow.png';
 import levelJson from './../assets/json/level.json';
 import uiJson from './../assets/json/uiElements.json';
@@ -53,15 +53,23 @@ export default class loadingScene extends Phaser.Scene {
     preload() {
 
         // show logo
-        this.add.sprite(this.gw/2, this.gh/2, 'logo').setScale(1, 1); // logo is already preloaded in 'Boot' scene
+        this.add.sprite(this.gw / 2, this.gh * 0.45, 'logo').setScale(0.5, 0.5); // logo is already preloaded in 'Boot' scene
 
         // text
-        this.add.text(this.gw/2, this.gh * 0.20, 'CLOWNGAMING', {fontSize: '70px', color: '#FFFF00', fontStyle: 'bold'}).setOrigin(0.5);
-        this.add.text(this.gw/2, this.gh * 0.73, 'Loading', {fontSize: '30px', color: '#27FF00'}).setOrigin(0.5);
+        this.add.text(this.gw / 2, this.gh * 0.20, 'CLOWNGAMING', {
+            fontSize: '70px',
+            color: '#FFFF00',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.add.text(this.gw / 2, this.gh * 0.75, 'Loading', {
+            fontSize: '40px',
+            color: '#27FF00',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
 
         // progress bar background (e.g grey)
         const bgBar = this.add.graphics();
-        const barW = this.gw * 0.3;            // progress bar width
+        const barW = this.gw * 0.6;            // progress bar width
         const barH = barW * 0.1;          // progress bar height
         const barX = this.gw / 2 - barW / 2;       // progress bar x coordinate (origin is 0, 0)
         const barY = this.gh * 0.8 - barH / 2   // progress bar y coordinate (origin is 0, 0)
@@ -74,7 +82,7 @@ export default class loadingScene extends Phaser.Scene {
         progressBar.setPosition(barX, barY);
 
         // listen to the 'progress' event (fires every time an asset is loaded and 'value' is the relative progress)
-        this.load.on('progress', function(value) {
+        this.load.on('progress', function (value) {
 
             // clearing progress bar (to draw it again)
             progressBar.clear();
@@ -89,20 +97,20 @@ export default class loadingScene extends Phaser.Scene {
 
         // load images
         this.load.image('uiBackground', uiBgImg);
-        this.load.image('player', playerImg);
-        this.load.image('block', blockImg);
         this.load.image('background', backgroundImg);
-        this.load.image('checkpoint', checkpointImg);
-        this.load.image('finish', finishImg);
         this.load.image('editorBackground', editorBgImg);
         this.load.image('arrow', arrowImg);
+        this.load.image('back', backImg);
 
         // load spritesheets
+        this.load.spritesheet('player', playerImg, {frameWidth: 48, frameHeight: 96});
+        this.load.spritesheet('checkpoint', checkpointImg, {frameWidth: 18, frameHeight: 18});
+        this.load.spritesheet('finish', finishImg, {frameWidth: 48, frameHeight: 60});
+        this.load.spritesheet('block', blockImg, {frameWidth: 48, frameHeight: 48});
+
         const buttonProperties = {
             frameWidth: 48,
-            frameHeight: 48,
-            margin: 0,
-            spacing: 0
+            frameHeight: 48
         };
 
         this.load.spritesheet('buttonGraphics', buttonGraphicsImg, buttonProperties);
@@ -110,14 +118,11 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('buttonLeft', buttonLeftImg, buttonProperties);
         this.load.spritesheet('buttonJump', buttonJumpImg, buttonProperties);
         this.load.spritesheet('buttonDoublejump', buttonDoublejumpImg, buttonProperties);
-        this.load.spritesheet('buttonCrouch', buttonCrouchImg, buttonProperties);
         this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
         const mobileProperties = {
             frameWidth: 75,
-            frameHeight: 75,
-            margin: 0,
-            spacing: 0
+            frameHeight: 75
         };
 
         this.load.spritesheet('mobileLeft', mobileLeftImg, mobileProperties);
@@ -126,6 +131,8 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('mobileJump', mobileJumpImg, mobileProperties);
 
         this.load.spritesheet('okButton', okImg, mobileProperties);
+
+
 
         // load audio
         //this.load.audio('miss', 'assets/audio/Pew.mp3');
@@ -140,11 +147,89 @@ export default class loadingScene extends Phaser.Scene {
      * Add the animations and change to "Home" scene, directly after loading
      */
     create() {
-        this.scene.start('Home');
-        //this.scene.start('Editor', {                           //TODO: Remove! Is here just for testing.
-            //activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+
+
+        // add animations (for all scenes)
+        this.addAnimations();
+
+        //this.scene.start('Home');
+        this.scene.start('Game', {                           //TODO: Remove! Is here just for testing.
+            activeUpgrades: [true, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+            //activeUpgrades: [true, true, true, true, true, true, true],
             //activeCheckpoints: [true, true, true, true, true, true, true],
-        //});
+            activeCheckpoints: [false, false, false, false, false, false, false],
+        });
     }
 
+    /**
+     * Adds all animations for all scenes
+     */
+    addAnimations() {
+
+
+        // checkpoint rotation animation
+        this.anims.create({
+            key: 'checkpointRotate',
+            frames: this.anims.generateFrameNames('checkpoint', {frames: [4, 5, 6, 7]}),
+            frameRate: 7,
+            paused: true,
+            repeat: -1,
+            yoyo: true
+        });
+
+        this.anims.create({
+            key: 'checkpointRotateRaw',
+            frames: this.anims.generateFrameNames('checkpoint', {frames: [0, 1, 2, 3]}),
+            frameRate: 7,
+            paused: true,
+            repeat: -1,
+            yoyo: true
+        });
+
+        this.anims.create({
+            key: 'playerIdle',
+            frames: this.anims.generateFrameNames('player', {frames: [0, 1]}),
+            frameRate: 2,
+            paused: true,
+            repeat: -1,
+            yoyo: false
+        });
+
+        this.anims.create({
+            key: 'playerWalk',
+            frames: this.anims.generateFrameNames('player', {frames: [2, 3, 4, 5]}),
+            frameRate: 5,
+            paused: true,
+            repeat: -1,
+            yoyo: false
+        });
+
+        this.anims.create({
+            key: 'playerCrouchIdle',
+            frames: this.anims.generateFrameNames('player', {frames: [7, 8]}),
+            frameRate: 2,
+            paused: true,
+            repeat: -1,
+            yoyo: false
+        });
+
+        this.anims.create({
+            key: 'playerCrouchWalk',
+            frames: this.anims.generateFrameNames('player', {frames: [9, 10]}),
+            frameRate: 5,
+            paused: true,
+            repeat: -1,
+            yoyo: false
+        });
+
+        this.anims.create({
+            key: 'playerRaw',
+            frames: this.anims.generateFrameNames('player', {frames: [12, 13]}),
+            frameRate: 2,
+            paused: true,
+            repeat: -1,
+            yoyo: false
+        });
+
+    }
 }

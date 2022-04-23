@@ -47,12 +47,12 @@ export default class gameScene extends Phaser.Scene {
         // Create the menu with its entries
         this.createMenu([
             'Start',
-            'How to Play',
-            'Credits'
+            'Bonus Level'
         ]);
 
         // Add keyboard inputs
         this.addKeys();
+
 
     }
 

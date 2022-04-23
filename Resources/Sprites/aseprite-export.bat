@@ -1,0 +1,1 @@
+for %%f in (*.ase) do "C:\Program Files\Aseprite\Aseprite.exe" -b %%f --scale 3 --sheet ".\..\..\src\assets\images\%%~nf.png

@@ -7,9 +7,11 @@ export default class Finish extends Phaser.GameObjects.Sprite {
      * Constructor
      * @constructor
      */
-    constructor(scene, x, y) {
+    constructor(scene, x, y, unraw) {
 
-        super(scene, x, y, 'finish');
+        super(scene, x, y, 'finish', 0);
+
+        this.unraw = unraw;     // if this is true the unraw image is shown, otherwise the raw one (graphics upgrade not activated)
 
         // set origin
         this.setOrigin(0, 1);
@@ -21,6 +23,13 @@ export default class Finish extends Phaser.GameObjects.Sprite {
         this.body.setSize(this.width / 8, this.height);   // make the hitbox smaller
         this.body.setOffset(0, 0);        // set it to the very left
 
+        // set frame according to if the finish is raw or unraw
+        if (this.unraw) {
+            this.setFrame(1);
+        }
+        else {
+            this.setFrame(0);
+        }
     }
 
 }
