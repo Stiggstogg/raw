@@ -34,7 +34,7 @@ export default class OkButton extends Phaser.GameObjects.Sprite {
      */
     notSelectable() {
        this.setFrame(1);
-        this.okText.setColor('#595652');
+        this.okText.setColor('#696A6A');
     }
 
 }

@@ -3,42 +3,42 @@
     {
       "key": "buttonGraphics",
       "x": 0.33,
-      "y": 0.32,
+      "y": 0.27,
       "text": "Better game graphics!"
     },
     {
       "key": "buttonSound",
       "x": 0.66,
-      "y": 0.32,
+      "y": 0.27,
       "text": "Music and sound effects!"
     },
     {
       "key": "buttonJump",
-      "x": 0.2,
+      "x": 0.14,
       "y": 0.47,
       "text": "Jump!"
     },
     {
       "key": "buttonLeft",
-      "x": 0.4,
+      "x": 0.38,
       "y": 0.47,
       "text": "Move left!"
     },
     {
       "key": "buttonCrouch",
-      "x": 0.6,
+      "x": 0.62,
       "y": 0.47,
       "text": "Crouch!"
     },
     {
       "key": "buttonPlatforms",
-      "x": 0.8,
+      "x": 0.86,
       "y": 0.47,
       "text": "Platforms!"
     },
     {
       "key": "buttonDoublejump",
-      "x": 0.2,
+      "x": 0.14,
       "y": 0.62,
       "text": "Double jump!"
     }
@@ -51,12 +51,12 @@
     },
     {
       "key": "mobileRight",
-      "x": 0.35,
+      "x": 0.40,
       "y": 0.925
     },
     {
       "key": "mobileJump",
-      "x": 0.85,
+      "x": 0.80,
       "y": 0.925
     }
   ]

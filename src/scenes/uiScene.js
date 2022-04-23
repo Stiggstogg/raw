@@ -105,6 +105,20 @@ export default class uiScene extends Phaser.Scene {
         // add esc key
         this.input.keyboard.addKey('Esc').on('down', this.backToMenu, this);
 
+        // add text to describe it
+        const homeText = this.add.text(this.relToGame(0.85, 'x'), this.relToGame(0.015, 'y'),
+            'Press ESC or this button to go back to the menu.', {
+                fontSize: '20px',
+                fill: '#ffffff',
+                fontStyle: 'bold',
+                wordWrap: {width: this.relToGame(0.45, 'x')}
+            }
+        ).setOrigin(1, 0);
+
+        if (this.data.activeUpgrades[0]) {          // change color of the text to black if the graphics upgrade (index: 0) is activated
+            homeText.setColor('#000000');
+        }
+
     }
 
     /**

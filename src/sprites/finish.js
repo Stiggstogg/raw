@@ -20,7 +20,7 @@ export default class Finish extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this, true);
 
         // put hit box to the left and make it smaller
-        this.body.setSize(this.width / 8, this.height);   // make the hitbox smaller
+        this.body.setSize(this.width / 4, this.height);   // make the hitbox smaller
         this.body.setOffset(0, 0);        // set it to the very left
 
         // set frame according to if the finish is raw or unraw

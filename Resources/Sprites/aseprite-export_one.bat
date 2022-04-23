@@ -1,1 +1,1 @@
-"C:\Program Files\Aseprite\Aseprite.exe" -b Player.ase --scale 3 --sheet ".\..\..\src\assets\images\Player.png
+"C:\Program Files\Aseprite\Aseprite.exe" -b EditorBackground.ase --scale 3 --sheet ".\..\..\src\assets\images\EditorBackground.png

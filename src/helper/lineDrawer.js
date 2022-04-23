@@ -21,7 +21,7 @@ export default class LineDrawer {
 
         // get parameters
         this.buttonHeight = this.buttonGroup.getChildren()[0].height;       // height of the buttons
-        this.buttonGap = (this.buttonGroup.getChildren()[2].y - this.buttonHeight / 2) - (this.buttonGroup.getChildren()[0].y + this.buttonHeight / 2);     // vertical gap between the buttons
+        this.buttonGap = (this.buttonGroup.getChildren()[2].y - this.buttonHeight / 2) - (this.buttonGroup.getChildren()[0].y + this.buttonHeight / 2);     // vertical gap between the buttons in first and second row
 
         this.drawOne([
             this.buttonGroup.getChildren()[0],
@@ -36,6 +36,7 @@ export default class LineDrawer {
         ]);
 
         this.drawThree([
+            this.buttonGroup.getChildren()[2],
             this.buttonGroup.getChildren()[6]
         ]);
 
@@ -96,8 +97,8 @@ export default class LineDrawer {
     drawThree(buttonArray) {
 
         this.scene.add.line(0, 0,
-            buttonArray[0].x, buttonArray[0].y - this.buttonHeight / 2,
-            buttonArray[0].x, buttonArray[0].y - this.buttonHeight / 2 - this.buttonGap,
+            buttonArray[1].x, buttonArray[1].y - this.buttonHeight / 2,
+            buttonArray[1].x, buttonArray[0].y + this.buttonHeight / 2,
             this.lineColor).setOrigin(0).setLineWidth(this.lineWidth);
 
     }

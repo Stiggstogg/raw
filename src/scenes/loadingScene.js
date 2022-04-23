@@ -10,10 +10,10 @@ import buttonSoundImg from './../assets/images/button-sound.png';
 import buttonLeftImg from './../assets/images/button-left.png';
 import buttonJumpImg from './../assets/images/button-jump.png';
 import buttonDoublejumpImg from './../assets/images/button-doublejump.png';
+import buttonCrouchImg from './../assets/images/button-crouch.png';
 import buttonPlatformsImg from './../assets/images/button-platforms.png';
 import mobileLeftImg from './../assets/images/mobile-left.png';
 import mobileRightImg from './../assets/images/mobile-right.png';
-import mobileCrouchImg from './../assets/images/mobile-crouch.png';
 import mobileJumpImg from './../assets/images/mobile-jump.png';
 import okImg from './../assets/images/OK.png';
 import backImg from './../assets/images/back.png';
@@ -109,8 +109,8 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('block', blockImg, {frameWidth: 48, frameHeight: 48});
 
         const buttonProperties = {
-            frameWidth: 48,
-            frameHeight: 48
+            frameWidth: 75,
+            frameHeight: 75
         };
 
         this.load.spritesheet('buttonGraphics', buttonGraphicsImg, buttonProperties);
@@ -118,6 +118,7 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('buttonLeft', buttonLeftImg, buttonProperties);
         this.load.spritesheet('buttonJump', buttonJumpImg, buttonProperties);
         this.load.spritesheet('buttonDoublejump', buttonDoublejumpImg, buttonProperties);
+        this.load.spritesheet('buttonCrouch', buttonCrouchImg, buttonProperties);
         this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
         const mobileProperties = {
@@ -127,10 +128,9 @@ export default class loadingScene extends Phaser.Scene {
 
         this.load.spritesheet('mobileLeft', mobileLeftImg, mobileProperties);
         this.load.spritesheet('mobileRight', mobileRightImg, mobileProperties);
-        this.load.spritesheet('mobileCrouch', mobileCrouchImg, mobileProperties);
         this.load.spritesheet('mobileJump', mobileJumpImg, mobileProperties);
 
-        this.load.spritesheet('okButton', okImg, mobileProperties);
+        this.load.spritesheet('okButton', okImg, {frameWidth: 150, frameHeight: 75});
 
 
 
@@ -154,8 +154,8 @@ export default class loadingScene extends Phaser.Scene {
 
         //this.scene.start('Home');
         this.scene.start('Game', {                           //TODO: Remove! Is here just for testing.
-            activeUpgrades: [true, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
-            //activeUpgrades: [true, true, true, true, true, true, true],
+            //activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
+            activeUpgrades: [true, true, true, true, false, true, true],
             //activeCheckpoints: [true, true, true, true, true, true, true],
             activeCheckpoints: [false, false, false, false, false, false, false],
         });

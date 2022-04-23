@@ -25,7 +25,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.doubleJumpActivated = doubleJumpActivated;     // true if double jump is activated
         this.secondJump = 0;
 
+        // set the hitbox size
+        this.body.setSize(this.width/2, this.height);   // set the hit box half as high
+
+        // make sure the player is always in the foreground
+        this.setDepth(2);
+
         this.setAnimKeysFramesHit();                    // set the animation key and frames and hitbox (based on crouch or not)
+
+
 
     }
 
@@ -136,8 +144,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.jumpFrame = 11;
 
             // set smaller hitbox for crouch
-            this.body.setSize(this.width, this.height/2);   // set the hit box half as high
-            this.body.setOffset(0, this.height/2);          // set the offset of the hitbox so that the hitbox is at the bottom of the sprite
+            this.body.setSize(this.width/2, this.height/2);   // set the hit box half as high
+            this.body.setOffset(this.width/2 - this.width/4, this.height/2);          // set the offset of the hitbox so that the hitbox is at the bottom of the sprite
 
         }
         else {

@@ -36,23 +36,23 @@ export default class uiScene extends Phaser.Scene {
 
         // text styles
         const titleStyle = {            // title
-            fontSize: '16px',
-            fontStyle: 'bold',
+            fontSize: '40px',
             fill: '#000000',
-            align: 'center',
+            fontStyle: 'bold',
+            wordWrap: {width: this.relToGame(0.9, 'x')}
         }
 
         const subStyle = {            // subtitle
-            fontSize: '14px',
+            fontSize: '30px',
             fill: '#000000',
-            align: 'center',
+            fontStyle: 'bold',
             wordWrap: {width: this.relToGame(0.9, 'x')}
         }
 
         const instStyle = {             // instructions
-            fontSize: '11px',
+            fontSize: '25px',
             fill: '#000000',
-            align: 'center',
+            fontStyle: 'bold',
             wordWrap: {width: this.relToGame(0.9, 'x')}
         }
 

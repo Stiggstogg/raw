@@ -29,9 +29,9 @@ export default class editorScene extends Phaser.Scene {
         this.gh = this.sys.game.config.height;
 
         // editor size and position
-        const yRel = 0.15;     // relative position of the editor (to game height)
+        const yRel = 0.10;     // relative position of the editor (to game height)
         const widthRel = 0.8;      // relative width of the editor (to game width)
-        const heightRel = 0.5;     // relative height of the editor (game height)
+        const heightRel = 0.7;     // relative height of the editor (game height)
 
         this.editorArea = {
             width: Math.round(this.gw * widthRel),                              // width of the editor (scene) area
@@ -43,6 +43,7 @@ export default class editorScene extends Phaser.Scene {
         // get data (active checkpoints and active upgrades)
         this.data = data;
 
+        //console.log(this.editorArea);
     }
 
     /**
@@ -147,26 +148,25 @@ export default class editorScene extends Phaser.Scene {
         this.cameras.main.setSize(this.editorArea.width, this.editorArea.height);             // set the camera size (editor size)
 
         // background
-        const background = this.add.image(0, 0, 'editorBackground');
-        background.setDisplaySize(this.editorArea.width, this.editorArea.height).setOrigin(0);
+        const background = this.add.image(0, 0, 'editorBackground').setOrigin(0).setDepth(-2);
 
         // ------------------
         // Instruction text
         // ------------------
 
-        this.add.text(this.relToWorld(0.10), this.relToWorld(0.05), 'Choose a new feature for your game!', {
+        this.add.text(this.relToGame(0.06), this.relToGame(0.06), 'Choose a new feature for your game!', {
                 fontSize: '30px',
                 fill: '#000000',
                 fontStyle: 'bold',
-                wordWrap: {width: this.relToWorld(0.9, 'x')}
+                wordWrap: {width: this.relToGame(0.88, 'x')}
             }
         )
 
-        this.add.text(this.relToWorld(0.1), this.relToWorld(0.2), 'Arrows or touch to select. SPACE or "OK" to confirm.', {
+        this.add.text(this.relToGame(0.06), this.relToGame(0.22), 'Arrows or touch to select.\nSPACE or "Build" to confirm.', {
                 fontSize: '20px',
                 fill: '#000000',
                 fontStyle: 'bold',
-                wordWrap: {width: this.relToWorld(0.9, 'x')}
+                wordWrap: {width: this.relToGame(0.88, 'x')}
             }
         )
 
@@ -181,8 +181,8 @@ export default class editorScene extends Phaser.Scene {
         for (let i = 0; i < buttonData.length; i++) {
 
             let button = this.add.existing(new UpgradeButton(this,
-                this.relToWorld(buttonData[i].x, 'x'),
-                this.relToWorld(buttonData[i].y, 'y'),
+                this.relToGame(buttonData[i].x, 'x'),
+                this.relToGame(buttonData[i].y, 'y'),
                 buttonData[i].key, i, buttonData[i].text));
 
             this.upgradeButtons.add(button);            // add the button to the group
@@ -213,34 +213,46 @@ export default class editorScene extends Phaser.Scene {
         }
 
         // textfield which describes the upgrade
-        this.upgradeText = this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.60, 'y'), ' ', {
-            fontSize: '30px',
-            fill: '#000000',
-            fontStyle: 'bold',
-            wordWrap: {width: this.relToWorld(0.9, 'x')}
+        this.upgradeText = this.add.text(this.relToGame(0.08, 'x'), this.relToGame(0.73, 'y'), ' ', {
+                fontSize: '30px',
+                fill: '#000000',
+                fontStyle: 'bold',
+                wordWrap: {width: this.relToGame(0.84, 'x')}
             }
-        )
+        );
 
         // OK button
-        this.okButton = this.add.existing(new OkButton(this, this.relToWorld(0.5, 'x'), this.relToWorld(0.9, 'y')));
+        this.okButton = this.add.existing(new OkButton(this, this.relToGame(0.5, 'x'), this.relToGame(0.93, 'y')));
         this.okButton.on('pointerdown', this.activateUpgrade, this);
 
         // textfield which describes when an upgrade is not available
-        this.errorText = this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.80, 'y'), ' ', {
-                fontSize: '20px',
-                fill: '#ff0000',
+        this.errorText = this.add.text(this.upgradeText.x, this.relToGame(0.82, 'y'), ' ', {
+                fontSize: '25px',
+                fill: '#000000',
                 fontStyle: 'bold',
-                wordWrap: {width: this.relToWorld(0.9, 'x')}
+                wordWrap: {width: this.relToGame(0.9, 'x')}
             }
         )
 
+        // ----------
         // selector
-        this.selector = this.add.existing(new Selector(this, 2, 0xffff00, this.upgradeButtons, this.upgradeText,
+        // ----------
+
+        this.selector = this.add.existing(new Selector(this, 6, 0xffff00, this.upgradeButtons, this.upgradeText,
             this.errorText, this.okButton));
 
         // lines between the upgrades
         const lineDrawer = new LineDrawer(this, this.upgradeButtons);
 
+        // rectangle for button area
+        const buttonBackground = this.add.rectangle(this.relToGame(0.5, 'x'), this.relToGame(0.20, 'y'),
+            this.relToGame(0.93, 'x'), this.relToGame(0.5, 'y'), 0x76428A);
+        buttonBackground.setOrigin(0.5, 0).setDepth(-1).setStrokeStyle(3, 0x000000, 1);
+
+        // rectangle for description
+        const descriptionBackground = this.add.rectangle(buttonBackground.x, buttonBackground.y + buttonBackground.height,
+            buttonBackground.width, this.relToGame(0.17, 'y'), 0xDF7126);
+        descriptionBackground.setOrigin(0.5, 0).setDepth(-1).setStrokeStyle(3, 0x000000, 1);
 
 
     }
@@ -263,11 +275,11 @@ export default class editorScene extends Phaser.Scene {
 
 
     /**
-     * Calculate from relative coordinates to the world coordinates in pixels
+     * Calculate from relative coordinates to the game coordinates in pixels
      * @param {number} rel relative coordinate in the world
      * @param {string} dir direction of the coordinate ('x' or 'y')
      */
-    relToWorld(rel, dir) {
+    relToGame(rel, dir) {
 
         if (dir === 'y') {
             return Math.round(rel * this.editorArea.height);

@@ -67,7 +67,6 @@ export default class gameScene extends Phaser.Scene {
 
         // launch UI scene
         this.scene.launch('UI', this.data);
-        //this.scene.bringToTop();        // bring this scene on top of the UI scene
 
         // creates the world
         this.createWorld();
@@ -98,12 +97,12 @@ export default class gameScene extends Phaser.Scene {
 
         // movement (left, right)
         if (((this.keyLeft.isDown && !this.keyRight.isDown) ||
-            (this.mobileControlPressed.left && !this.mobileControlPressed.right))
+                (this.mobileControlPressed.left && !this.mobileControlPressed.right))
             && this.data.activeUpgrades[3]) {       // check if move left upgrade (index: 3) is active
             this.player.move('left');
         }
         else if ((this.keyRight.isDown && !this.keyLeft.isDown) ||
-        (this.mobileControlPressed.right && !this.mobileControlPressed.left)) {
+            (this.mobileControlPressed.right && !this.mobileControlPressed.left)) {
             this.player.move('right');
         }
         else {
@@ -124,7 +123,7 @@ export default class gameScene extends Phaser.Scene {
         this.keyRight = this.input.keyboard.addKey('Right');
 
         // jump (jump is done with events, to only jump once it)
-        this.input.keyboard.addKey('Space').on('down', function() {
+        this.input.keyboard.addKey('Up').on('down', function() {
 
             if (this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
                 this.player.move('up');
@@ -185,7 +184,8 @@ export default class gameScene extends Phaser.Scene {
 
         // set world boundaries
         this.physics.world.bounds.width = this.worldSize.width;
-        this.physics.world.bounds.height = this.worldSize.height;
+        this.physics.world.bounds.height = this.worldSize.height + this.relToWorld(0.5, 'y');       // set height a bit higher so that the player is not blocked when jumping at the top
+        this.physics.world.bounds.y = - + this.relToWorld(0.5, 'y');                                // set the origin accorindgly higher
 
         // set the camera
         this.cameras.main.setBounds(0, 0, this.worldSize.width, this.worldSize.height);       // set the camera boundaries (to the world size)
@@ -222,21 +222,30 @@ export default class gameScene extends Phaser.Scene {
 
         if (newGame) {
 
-            this.add.text(this.relToWorld(0.05, 'x'), this.relToWorld(0.30, 'y'),
+            this.add.text(this.relToWorld(0.05, 'x'), this.relToWorld(0.28, 'y'),
                 'Welcome. You are caught in your own game!\n' +
                 'It still looks pretty RAW. At the moment you can only move right.\n' +
-                'Collect breakpoints, add new features and create a new build. Repeat that until you are able to reach the exit and escape your game.\n' +
+                'Go to a breakpoint, add a new feature and create a new build. Repeat that until you are able to reach the exit and escape your game.\n' +
                 'Enjoy UNRAWIFYING your game!', {
                     fontSize: '30px',
                     fill: '#ffffff',
                     fontStyle: 'bold',
                     wordWrap: {width: this.relToWorld(0.45, 'x')}
                 }
-            )
+            );
+
+            this.add.text(this.relToWorld(0.05, 'x'), this.relToWorld(0.7, 'y'),
+                'Use arrow keys or touch buttons below to move.', {
+                    fontSize: '25px',
+                    fill: '#ffffff',
+                    fontStyle: 'bold',
+                    wordWrap: {width: this.relToWorld(0.45, 'x')}
+                }
+            );
 
             // add arrows
             this.add.sprite(this.relToWorld(0.07, 'x'), this.relToWorld(0.16, 'y'), 'arrow').setRotation(225 * Math.PI / 180);
-            this.add.sprite(this.relToWorld(0.41, 'x'), this.relToWorld(0.90, 'y'), 'arrow').setRotation(135 * Math.PI / 180);
+            this.add.sprite(this.relToWorld(0.41, 'x'), this.relToWorld(0.89, 'y'), 'arrow').setRotation(135 * Math.PI / 180);
 
             // label of finish and checkpoint
             const textStyle = {
@@ -246,7 +255,7 @@ export default class gameScene extends Phaser.Scene {
             }
 
             this.add.text(this.relToWorld(0.10, 'x'), this.relToWorld(0.13, 'y'), 'Exit', textStyle).setOrigin(0, 0.5);
-            this.add.text(this.relToWorld(0.38, 'x'), this.relToWorld(0.87, 'y'), 'Breakpoint', textStyle).setOrigin(1, 0.5);
+            this.add.text(this.relToWorld(0.38, 'x'), this.relToWorld(0.86, 'y'), 'Breakpoint', textStyle).setOrigin(1, 0.5);
 
         }
 

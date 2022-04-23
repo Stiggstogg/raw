@@ -222,7 +222,7 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
         // show the error text if needed
         switch (this.getSelectedButton().getButtonState()) {
             case 0:
-                this.errorText.setText('Not yet available!');
+                this.errorText.setText('(Not yet available)');
                 this.okButton.notSelectable();
                 break;
             case 1:
@@ -230,7 +230,7 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
                 this.okButton.selectable();
                 break;
             case 2:
-                this.errorText.setText('Already activated!');
+                this.errorText.setText('(Already activated)');
                 this.okButton.notSelectable();
                 break;
         }
