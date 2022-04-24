@@ -115,6 +115,14 @@ export default class buildScene extends Phaser.Scene {
             callbackScope: this
         });
 
+        // Music
+        this.music = this.sound.add('buildSound');
+        this.music.play();
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
+            this.music.stop();
+        }, this);
+
     }
 
     /**

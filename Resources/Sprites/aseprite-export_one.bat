@@ -1,1 +1,1 @@
-"C:\Program Files\Aseprite\Aseprite.exe" -b EditorBackground.ase --scale 3 --sheet ".\..\..\src\assets\images\EditorBackground.png
+"C:\Program Files\Aseprite\Aseprite.exe" -b monetization.ase --scale 3 --sheet ".\..\..\src\assets\images\monetization.png

@@ -238,6 +238,25 @@ export default class Selector extends Phaser.GameObjects.Rectangle {
     }
 
     /**
+     * Select button by providing an index
+     */
+    selectByIndex(buttonIndex) {
+
+        // set the selected button to the first one
+        this.selected.row = 0;
+        this.selected.column = 0;
+
+        // execute the "next" action for as many times (minus one) as the button Index
+        for (let i = 0; i < buttonIndex; i++) {
+            this.next();
+        }
+
+        // select the button at the end (eventhough this is already in this.next(), it needs to be done for the first button)
+        this.select();
+
+    }
+
+    /**
      * Get the currently selected button
      */
     getSelectedButton() {

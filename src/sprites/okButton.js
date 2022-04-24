@@ -13,7 +13,7 @@ export default class OkButton extends Phaser.GameObjects.Sprite {
 
         this.setInteractive();
 
-        this.okText = scene.add.text(this.x, this.y, 'OK', {
+        this.okText = scene.add.text(this.x, this.y, 'Build', {
             fontSize: '30px',
             fill: '#000000',
             fontStyle: 'bold'

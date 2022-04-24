@@ -1,4 +1,5 @@
 import MobileControl from './../sprites/mobileControl';
+import eventsCenter from "../helper/eventsCenter";
 
 /**
  * "UI" scene: Scene for the UI of the game
@@ -27,6 +28,9 @@ export default class uiScene extends Phaser.Scene {
         // save information from game scene
         this.data = data;
 
+        // set music keys
+        this.musicKeys = ['playingMusic', 'playingRockMusic'];
+
     }
 
     // load assets
@@ -52,6 +56,17 @@ export default class uiScene extends Phaser.Scene {
 
         // home button (including keyboard) and text setup
         this.homeButtonSetup();
+
+        // Music
+        this.music = this.sound.add(this.musicKeys[this.data.musicType]);
+
+        if (this.data.activeUpgrades[1]) {            // only play music when upgrade is activated
+            this.music.play({loop: true});
+        }
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
+            this.music.stop();
+        }, this);
     }
 
     /**

@@ -67,6 +67,10 @@ export default class uiScene extends Phaser.Scene {
             'Press any key or button to go back to the menu.', instStyle).setOrigin(0.5, 0).setVisible(false);
 
 
+        // Sound
+        this.yeahSound = this.sound.add('yeahSound');
+        this.yeahSound.play();
+
         // Show the instructions and activate the keys / buttons to go back
         this.time.addEvent({
             delay: 1000,

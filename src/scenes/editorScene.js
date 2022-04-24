@@ -2,7 +2,7 @@ import UpgradeButton from './../sprites/upgradeButton.js'
 import Selector from './../helper/selector.js'
 import OkButton from './../sprites/okButton.js'
 import LineDrawer from './../helper/lineDrawer.js';
-import eventsCenter from "../helper/eventsCenter";
+import eventsCenter from '../helper/eventsCenter';
 
 /**
  * "Editor" scene: Scene for the editor to choose upgrades
@@ -124,9 +124,17 @@ export default class editorScene extends Phaser.Scene {
 
         }, this);
 
+        // event listener to listen for any presses of upgrade buttons
+        eventsCenter.on('mobileUpgradeButton', function(buttonIndex) {          // set "control pressed" to true for this control
+
+            this.selector.selectByIndex(buttonIndex);
+
+        }, this);
+
         // cleanup the listeners for the events
         this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
             eventsCenter.off('mobileDown');
+            eventsCenter.off('mobileUpgradeButton');
         });
 
     }

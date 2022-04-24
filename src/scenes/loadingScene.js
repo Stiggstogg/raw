@@ -1,4 +1,5 @@
 import uiBgImg from './../assets/images/uiBackground.png';
+import menuBgImg from './../assets/images/MenuBackground.png';
 import playerImg from './../assets/images/Player.png';
 import blockImg from './../assets/images/Block.png';
 import backgroundImg from './../assets/images/Background.png';
@@ -18,8 +19,18 @@ import mobileJumpImg from './../assets/images/mobile-jump.png';
 import okImg from './../assets/images/OK.png';
 import backImg from './../assets/images/back.png';
 import arrowImg from './../assets/images/arrow.png';
+import monetizationImg from './../assets/images/monetization.png'
+import menuMp3 from './../assets/music/Menu.mp3';
+import menuRockMp3 from './../assets/music/Menu_rock.mp3';
+import playingMp3 from './../assets/music/Playing.mp3';
+import playingRockMp3 from './../assets/music/Playing_rock.mp3';
+import buildMp3 from './../assets/music/build.mp3';
+import jumpMp3 from './../assets/music/jump.mp3';
+import doubleJumpMp3 from './../assets/music/doublejump.mp3';
+import yeahMp3 from './../assets/music/yeah.mp3';
 import levelJson from './../assets/json/level.json';
 import uiJson from './../assets/json/uiElements.json';
+import monetization from './../helper/monetization.js';
 
 /**
  * "Loading" scene: Loads all assets and shows a progress bar while loading
@@ -97,6 +108,7 @@ export default class loadingScene extends Phaser.Scene {
 
         // load images
         this.load.image('uiBackground', uiBgImg);
+        this.load.image('menuBackground', menuBgImg);
         this.load.image('background', backgroundImg);
         this.load.image('editorBackground', editorBgImg);
         this.load.image('arrow', arrowImg);
@@ -121,6 +133,8 @@ export default class loadingScene extends Phaser.Scene {
         this.load.spritesheet('buttonCrouch', buttonCrouchImg, buttonProperties);
         this.load.spritesheet('buttonPlatforms', buttonPlatformsImg, buttonProperties);
 
+        this.load.spritesheet('monetization', monetizationImg, buttonProperties);
+
         const mobileProperties = {
             frameWidth: 75,
             frameHeight: 75
@@ -135,11 +149,22 @@ export default class loadingScene extends Phaser.Scene {
 
 
         // load audio
-        //this.load.audio('miss', 'assets/audio/Pew.mp3');
+        this.load.audio('menuMusic', menuMp3);
+        this.load.audio('menuRockMusic', menuRockMp3);
+        this.load.audio('playingMusic', playingMp3);
+        this.load.audio('playingRockMusic', playingRockMp3);
+
+        this.load.audio('buildSound', buildMp3);
+        this.load.audio('jumpSound', jumpMp3);
+        this.load.audio('doubleJumpSound', doubleJumpMp3);
+        this.load.audio('yeahSound', yeahMp3);
 
         // load json
         this.load.json('levelData', levelJson);     // load level data
         this.load.json('uiElements', uiJson);        // ui elements
+
+        // start web monetization
+        monetization.start();
 
     }
 
@@ -153,11 +178,13 @@ export default class loadingScene extends Phaser.Scene {
         this.addAnimations();
 
         //this.scene.start('Home');
-        this.scene.start('Game', {                           //TODO: Remove! Is here just for testing.
+        this.scene.start('Home', {                           //TODO: Remove! Is here just for testing.
+            musicType: 0,                                           // 0: Normal music, 1: rock music
             //activeUpgrades: [false, false, false, false, false, false, false],            // order: graphics, sound, jump, left, crouch, platforms, double jump
             activeUpgrades: [true, true, true, true, false, true, true],
             //activeCheckpoints: [true, true, true, true, true, true, true],
-            activeCheckpoints: [false, false, false, false, false, false, false],
+            activeCheckpoints: [false, false, false, false, false, true, false],
+
         });
     }
 

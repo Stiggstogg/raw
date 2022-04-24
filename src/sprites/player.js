@@ -33,7 +33,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         this.setAnimKeysFramesHit();                    // set the animation key and frames and hitbox (based on crouch or not)
 
-
+        // add jump and double jump sound
+        this.jumpSound = scene.sound.add('jumpSound');
+        this.doubleJumpSound = scene.sound.add('doubleJumpSound');
 
     }
 
@@ -79,11 +81,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     jump() {
 
         if (this.onGround) {                   // jump only if the player is on the ground
+            this.jumpSound.play();              // play jump sound
             this.body.setVelocityY(-this.jumpSpeed);
             this.secondJump = true;             // set the trigger for the double jump to true as soon as the first jump was executed
 
         }
         else if (this.doubleJumpActivated && this.secondJump) {     // double jump (only when activated and the player is in the air and the first jump was executed)
+            this.doubleJumpSound.play();              // play double jump sound
             this.body.setVelocityY(-this.jumpSpeed);
             this.secondJump = false;
         }

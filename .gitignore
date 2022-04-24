@@ -19,4 +19,5 @@ dist-ssr
 
 # Folder for any other resources (e.g. helper files or raw audio files)
 #/Resources/
+/Resources/Music
 

@@ -1,3 +1,5 @@
+import eventsCenter from '../helper/eventsCenter';
+
 /**
  * Upgrade buttons in the editor
  */
@@ -15,6 +17,19 @@ export default class UpgradeButton extends Phaser.GameObjects.Sprite {
         this.buttonState = 0;               // state of the button / upgrade: 0: not available, 1: available, 2: already active
         this.buttonIndex = buttonIndex;     // index of the button: 0: graphics, 1: sound, 2: jump, 3: left, 4: crouch, 5: platforms, 6: double jump
         this.text = text;                   // text which describes the upgrade
+
+        // set interactive and send event when pressed
+        this.setInteractive();
+        this.on('pointerdown', this.click, this);
+
+    }
+
+    /**
+     * Action which is done when the button is pressed.
+     */
+    click() {
+
+        eventsCenter.emit('mobileUpgradeButton', this.buttonIndex);       // emit the event that the button was pressed
 
     }
 
