@@ -119,17 +119,41 @@ export default class gameScene extends Phaser.Scene {
     addKeys() {
 
         // left right keys (movement of left and right is implemented in the update function)
-        this.keyLeft = this.input.keyboard.addKey('Left');      //
+        this.keyLeft = this.input.keyboard.addKey('Left');
         this.keyRight = this.input.keyboard.addKey('Right');
 
+        // emit events when pressing the keys (to make the mobile buttons show as pressed)
+        this.keyLeft.on('down', function() {
+            eventsCenter.emit('moveKeyDown', 'left');
+        });
+
+        this.keyRight.on('down', function() {
+            eventsCenter.emit('moveKeyDown', 'right');
+        });
+
+        // emit events when releasing the keys (to make the mobile buttons show as not pressed)
+        this.keyLeft.on('up', function() {
+            eventsCenter.emit('moveKeyUp', 'left');
+        })
+
+        this.keyRight.on('up', function() {
+            eventsCenter.emit('moveKeyUp', 'right');
+        });
+
         // jump (jump is done with events, to only jump once it)
-        this.input.keyboard.addKey('Up').on('down', function() {
+        this.keyJump = this.input.keyboard.addKey('Up').on('down', function() {
+
+            eventsCenter.emit('moveKeyDown', 'jump');           // emit events when pressing the key (to make the mobile buttons show as pressed)
 
             if (this.data.activeUpgrades[2]) {      // check if jump upgrade (index: 2) is active
                 this.player.move('up');
             }
 
         }, this);
+
+        this.keyJump.on('up', function() {
+            eventsCenter.emit('moveKeyUp', 'jump');
+        });
 
     }
 
@@ -375,6 +399,7 @@ export default class gameScene extends Phaser.Scene {
     finishOverlap(sourceSprite, targetSprite) {
 
         // pause game scene
+        this.scene.pause('UI');
         this.scene.pause('Game');
 
         // launch finish scene

@@ -166,7 +166,7 @@ export default class editorScene extends Phaser.Scene {
                 fontSize: '30px',
                 fill: '#000000',
                 fontStyle: 'bold',
-                wordWrap: {width: this.relToGame(0.88, 'x')}
+                wordWrap: {width: this.relToGame(0.89, 'x')}
             }
         )
 

@@ -71,7 +71,7 @@ export default class gameScene extends Phaser.Scene {
 
         // Instruction / press key text
         this.add.text(this.relToGame(0.1, 'x'), this.relToGame(0.7, 'y'),
-            'Controls (Keyboard):\nArrow keys for movement\nSPACE to select\nESC to go back to Menu\n\n' +
+            'Controls (Keyboard):\nArrow keys for movement\nSPACE to select\nBACKSPACE to go back to menu\n\n' +
             'Controls (Mobile):\nTouch and mobile buttons', {
                 fontFamily: 'Courier',
                 fontSize: '25px',
@@ -341,7 +341,7 @@ export default class gameScene extends Phaser.Scene {
         ];
 
         this.monetizationTextTitle = this.add.text(this.relToGame(0.5, 'x'), this.musicText.y + this.relToGame(0.06, 'y'),
-            'Web-Monetization', {
+            'Web Monetization', {
                 fontFamily: 'Courier',
                 fontSize: '30px',
                 fontStyle: 'bold',

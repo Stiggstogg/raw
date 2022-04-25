@@ -1,5 +1,3 @@
-import eventsCenter from './../helper/eventsCenter.js';
-
 /**
  * "Finish" scene: Scene which is shown when the game is finished
  */
@@ -64,7 +62,7 @@ export default class uiScene extends Phaser.Scene {
             'You unrawified your game and made it out!', subStyle).setOrigin(0.5, 0);
 
         this.instructions = this.add.text(this.relToGame(0.5, 'x'), this.relToGame(0.50, 'y'),      // congratulations
-            'Press any key or button to go back to the menu.', instStyle).setOrigin(0.5, 0).setVisible(false);
+            'Press any key or touch the screen to go back to the menu.', instStyle).setOrigin(0.5, 0).setVisible(false);
 
 
         // Sound
@@ -73,7 +71,7 @@ export default class uiScene extends Phaser.Scene {
 
         // Show the instructions and activate the keys / buttons to go back
         this.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             repeat: 0,
             callback: this.goBackSetup,
             callbackScope: this
@@ -106,13 +104,8 @@ export default class uiScene extends Phaser.Scene {
         this.input.keyboard.addKey('Space').on('down', this.backToMenu, this);
         this.input.keyboard.addKey('Enter').on('down', this.backToMenu, this);
 
-        // add listeners for the mobile buttons
-        eventsCenter.on('mobileDown', this.backToMenu, this);
-
-        // cleanup the listeners for the events
-        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
-            eventsCenter.off('mobileDown');
-        });
+        // add listeners for touching the screen
+        this.input.on('pointerdown', this.backToMenu, this);
 
     }
 

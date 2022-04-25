@@ -67,7 +67,7 @@ export default class buildScene extends Phaser.Scene {
             '- Music',
             '- Jump',
             '- Move left',
-            '- Crouch',
+            '- Small',
             '- Platforms',
             '- Double Jump'
         ];

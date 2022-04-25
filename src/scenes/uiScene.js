@@ -1,5 +1,5 @@
 import MobileControl from './../sprites/mobileControl';
-import eventsCenter from "../helper/eventsCenter";
+import eventsCenter from './../helper/eventsCenter'
 
 /**
  * "UI" scene: Scene for the UI of the game
@@ -105,6 +105,12 @@ export default class uiScene extends Phaser.Scene {
             }
         }
 
+        // cleanup the event listeners for the key presses (to make the buttons clicked)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, function() {
+            eventsCenter.off('moveKeyDown');
+            eventsCenter.off('moveKeyUp');
+        });
+
     }
 
     /**
@@ -118,11 +124,11 @@ export default class uiScene extends Phaser.Scene {
         homeButton.on('pointerdown', this.backToMenu, this);    // add action to home button
 
         // add esc key
-        this.input.keyboard.addKey('Esc').on('down', this.backToMenu, this);
+        this.input.keyboard.addKey('BACKSPACE').on('down', this.backToMenu, this);
 
         // add text to describe it
         const homeText = this.add.text(this.relToGame(0.85, 'x'), this.relToGame(0.015, 'y'),
-            'Press ESC or this button to go back to the menu.', {
+            'Press BACKSPACE or this button to go back to menu.', {
                 fontSize: '20px',
                 fill: '#ffffff',
                 fontStyle: 'bold',

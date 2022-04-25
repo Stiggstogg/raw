@@ -22,6 +22,9 @@ export default class MobileControl extends Phaser.GameObjects.Sprite {
 
         this.buttonType = img.replace('mobile', '').toLowerCase();       // store the button type (left, right, crouch, jump)
 
+        eventsCenter.on('moveKeyDown', this.makeClicked, this);    // make the button show as clicked when the corresponding key is pressed
+        eventsCenter.on('moveKeyUp', this.makeUnclicked, this);    // make the button show as not clicked when the corresponding key is pressed
+
     }
 
     /**
@@ -42,6 +45,28 @@ export default class MobileControl extends Phaser.GameObjects.Sprite {
         eventsCenter.emit('mobileUp', this.buttonType);         // emit the event that the button was released
         this.setFrame(0);                                       // set the image back to normal
 
+
+    }
+
+    /**
+     * Make the button clicked (when key is pressed)
+     */
+    makeClicked(type) {
+
+        if (this.buttonType === type) {
+            this.setFrame(1);
+        }
+
+    }
+
+    /**
+     * Make the button unclicked (when key is preleased)
+     */
+    makeUnclicked(type) {
+
+        if (this.buttonType === type) {
+            this.setFrame(0);
+        }
 
     }
 
